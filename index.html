@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pool Dose Guide</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Technician guide</p>
+        <h1>Pool Dose Guide</h1>
+      </div>
+      <button class="icon-button" id="settingsButton" type="button" aria-label="Product settings" title="Product settings">
+        <span aria-hidden="true">Settings</span>
+      </button>
+    </header>
+
+    <main class="app-shell">
+      <section class="panel pool-panel" aria-labelledby="poolHeading">
+        <div class="panel-title">
+          <div>
+            <p class="step-label">Step 1</p>
+            <h2 id="poolHeading">Pool Profile</h2>
+          </div>
+          <button class="secondary-button" id="newPoolButton" type="button">New</button>
+        </div>
+
+        <label class="field">
+          <span>Saved pool</span>
+          <select id="poolSelect"></select>
+        </label>
+
+        <div class="grid two">
+          <label class="field">
+            <span>Customer / site</span>
+            <input id="poolName" type="text" autocomplete="off" placeholder="Smith residence">
+          </label>
+          <label class="field">
+            <span>Volume (litres)</span>
+            <input id="poolVolume" type="number" min="1000" step="500" inputmode="numeric" placeholder="50000">
+          </label>
+        </div>
+
+        <div class="grid three">
+          <label class="field">
+            <span>Pool type</span>
+            <select id="poolType">
+              <option>Salt</option>
+              <option>Chlorine</option>
+              <option>Mineral</option>
+              <option>Spa</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Surface</span>
+            <select id="surfaceType">
+              <option>Concrete</option>
+              <option>Fibreglass</option>
+              <option>Vinyl</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Volume confidence</span>
+            <select id="volumeConfidence">
+              <option>Estimated</option>
+              <option>Confirmed</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Site notes</span>
+          <textarea id="poolNotes" rows="2" placeholder="Access, equipment, unusual dosing notes"></textarea>
+        </label>
+
+        <button class="primary-button" id="savePoolButton" type="button">Save Pool</button>
+      </section>
+
+      <section class="panel" aria-labelledby="photoHeading">
+        <div class="panel-title">
+          <div>
+            <p class="step-label">Step 2</p>
+            <h2 id="photoHeading">Photo Result Entry</h2>
+          </div>
+        </div>
+
+        <label class="photo-drop" for="resultPhoto">
+          <input id="resultPhoto" type="file" accept="image/*" capture="environment">
+          <span class="photo-icon" aria-hidden="true">Photo</span>
+          <span>Take or upload Spin Touch result photo</span>
+        </label>
+
+        <figure class="photo-preview hidden" id="photoPreviewWrap">
+          <img id="photoPreview" alt="Uploaded test result preview">
+        </figure>
+
+        <p class="helper-text">
+          Photo reading is prepared as the main workflow. For this first local version, enter the extracted readings below after checking the photo.
+        </p>
+      </section>
+
+      <section class="panel" aria-labelledby="readingsHeading">
+        <div class="panel-title">
+          <div>
+            <p class="step-label">Step 3</p>
+            <h2 id="readingsHeading">Confirm Readings</h2>
+          </div>
+          <button class="secondary-button" id="sampleButton" type="button">Sample</button>
+        </div>
+
+        <div class="grid readings">
+          <label class="field compact">
+            <span>Free chlorine ppm</span>
+            <input id="freeChlorine" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+          <label class="field compact">
+            <span>Total chlorine ppm</span>
+            <input id="totalChlorine" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+          <label class="field compact">
+            <span>pH</span>
+            <input id="ph" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+          <label class="field compact">
+            <span>Alkalinity ppm</span>
+            <input id="alkalinity" type="number" min="0" step="1" inputmode="decimal">
+          </label>
+          <label class="field compact">
+            <span>Hardness ppm</span>
+            <input id="hardness" type="number" min="0" step="1" inputmode="decimal">
+          </label>
+          <label class="field compact">
+            <span>CYA ppm</span>
+            <input id="cya" type="number" min="0" step="1" inputmode="decimal">
+          </label>
+          <label class="field compact">
+            <span>Salt ppm</span>
+            <input id="salt" type="number" min="0" step="10" inputmode="decimal">
+          </label>
+          <label class="field compact">
+            <span>Phosphate ppb</span>
+            <input id="phosphate" type="number" min="0" step="10" inputmode="decimal">
+          </label>
+          <label class="field compact">
+            <span>Copper ppm</span>
+            <input id="copper" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+        </div>
+
+        <button class="primary-button" id="calculateButton" type="button">Calculate Dose Guide</button>
+      </section>
+
+      <section class="recommendations" aria-labelledby="recommendationHeading">
+        <div class="panel-title">
+          <div>
+            <p class="step-label">Step 4</p>
+            <h2 id="recommendationHeading">Technician Recommended Dosing</h2>
+          </div>
+        </div>
+
+        <div class="status-card" id="statusCard">
+          Add the pool profile and confirmed readings, then calculate.
+        </div>
+
+        <div class="recommendation-list" id="recommendationList"></div>
+        <div class="notes-list" id="notesList"></div>
+      </section>
+
+      <section class="panel history-panel" aria-labelledby="historyHeading">
+        <div class="panel-title">
+          <div>
+            <p class="step-label">Saved automatically</p>
+            <h2 id="historyHeading">Recent Test History</h2>
+          </div>
+          <button class="secondary-button" id="clearHistoryButton" type="button">Clear</button>
+        </div>
+        <div class="history-list" id="historyList"></div>
+      </section>
+    </main>
+
+    <dialog id="settingsDialog">
+      <form method="dialog" class="settings-form">
+        <div class="panel-title">
+          <div>
+            <p class="step-label">Company products</p>
+            <h2>Product Settings</h2>
+          </div>
+          <button class="icon-button" value="cancel" type="submit" aria-label="Close settings" title="Close">Close</button>
+        </div>
+
+        <div class="grid two">
+          <label class="field">
+            <span>Liquid chlorine strength (%)</span>
+            <input id="settingChlorine" type="number" min="1" step="0.1" inputmode="decimal">
+          </label>
+          <label class="field">
+            <span>Acid ml / 10,000 L / 0.1 pH drop</span>
+            <input id="settingAcid" type="number" min="1" step="1" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Soda ash g / 10,000 L / 0.1 pH lift</span>
+            <input id="settingSodaAsh" type="number" min="1" step="1" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Buffer g / 1,000 L / 10 ppm TA</span>
+            <input id="settingBuffer" type="number" min="1" step="1" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Calcium g / 1,000 L / 10 ppm</span>
+            <input id="settingCalcium" type="number" min="1" step="1" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Phosphate remover ml / 10,000 L / 100 ppb</span>
+            <input id="settingPhosphate" type="number" min="1" step="1" inputmode="numeric">
+          </label>
+        </div>
+
+        <div class="grid two">
+          <label class="field">
+            <span>Target free chlorine</span>
+            <input id="targetChlorine" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+          <label class="field">
+            <span>Target pH</span>
+            <input id="targetPh" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+          <label class="field">
+            <span>Target alkalinity</span>
+            <input id="targetAlkalinity" type="number" min="0" step="1" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Target hardness</span>
+            <input id="targetHardness" type="number" min="0" step="1" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Target CYA</span>
+            <input id="targetCya" type="number" min="0" step="1" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Target salt</span>
+            <input id="targetSalt" type="number" min="0" step="10" inputmode="numeric">
+          </label>
+        </div>
+
+        <menu class="dialog-actions">
+          <button class="secondary-button" id="resetSettingsButton" type="button">Reset Defaults</button>
+          <button class="primary-button" id="saveSettingsButton" value="default" type="submit">Save Settings</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
