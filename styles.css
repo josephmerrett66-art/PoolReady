@@ -1,0 +1,347 @@
+:root {
+  color-scheme: light;
+  --ink: #16211c;
+  --muted: #60706a;
+  --line: #d7ded8;
+  --surface: #ffffff;
+  --page: #eef5f1;
+  --accent: #04746f;
+  --accent-dark: #03534f;
+  --warn: #9a5b00;
+  --danger: #b42318;
+  --good: #157348;
+  --soft: #e4f4f1;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--page);
+  color: var(--ink);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px clamp(16px, 5vw, 40px);
+  background: rgba(238, 245, 241, 0.94);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+}
+
+.app-header h1,
+.panel-title h2 {
+  margin: 0;
+  letter-spacing: 0;
+}
+
+.app-header h1 {
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+}
+
+.eyebrow,
+.step-label {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.app-shell {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: 18px clamp(14px, 4vw, 32px) 42px;
+  display: grid;
+  gap: 16px;
+}
+
+.panel,
+.recommendations {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: clamp(16px, 3vw, 24px);
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.panel-title h2 {
+  font-size: 1.15rem;
+}
+
+.grid {
+  display: grid;
+  gap: 12px;
+}
+
+.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.readings {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.field span {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fbfdfc;
+  color: var(--ink);
+  padding: 11px 12px;
+  outline: none;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(4, 116, 111, 0.14);
+}
+
+.compact {
+  margin-bottom: 0;
+}
+
+.primary-button,
+.secondary-button,
+.icon-button {
+  border: 0;
+  border-radius: 6px;
+  min-height: 42px;
+  cursor: pointer;
+  font-weight: 750;
+}
+
+.primary-button {
+  width: 100%;
+  background: var(--accent);
+  color: #ffffff;
+  padding: 12px 16px;
+}
+
+.primary-button:hover {
+  background: var(--accent-dark);
+}
+
+.secondary-button {
+  background: var(--soft);
+  color: var(--accent-dark);
+  padding: 10px 14px;
+}
+
+.icon-button {
+  width: auto;
+  min-width: 44px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+.photo-drop {
+  min-height: 146px;
+  border: 2px dashed #a9bbb4;
+  border-radius: 8px;
+  background: #f7fbf9;
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 18px;
+  text-align: center;
+  color: var(--muted);
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.photo-drop input {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  opacity: 0;
+}
+
+.photo-icon {
+  color: var(--accent);
+  font-size: 1rem;
+}
+
+.photo-preview {
+  margin: 14px 0 0;
+}
+
+.photo-preview img {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #eef1f0;
+}
+
+.hidden {
+  display: none;
+}
+
+.helper-text {
+  margin: 12px 0 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.status-card,
+.dose-card,
+.note-card,
+.history-item {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: #fbfdfc;
+}
+
+.status-card {
+  color: var(--muted);
+}
+
+.status-card.ready {
+  color: var(--good);
+  background: #ecf8f2;
+  border-color: #b9e1cd;
+}
+
+.status-card.warn {
+  color: var(--warn);
+  background: #fff7e8;
+  border-color: #f3d396;
+}
+
+.recommendation-list,
+.notes-list,
+.history-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.dose-card strong {
+  display: block;
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+}
+
+.dose-card p,
+.note-card p,
+.history-item p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.dose-amount {
+  color: var(--accent-dark);
+  font-size: 1.45rem;
+  font-weight: 850;
+  margin-bottom: 4px;
+}
+
+.note-card.warning {
+  border-color: #f2c9c5;
+  background: #fff5f4;
+}
+
+.note-card.warning p {
+  color: var(--danger);
+}
+
+.history-item {
+  display: grid;
+  gap: 6px;
+}
+
+.history-item h3 {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+dialog {
+  width: min(720px, calc(100vw - 24px));
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0;
+}
+
+dialog::backdrop {
+  background: rgba(13, 24, 20, 0.45);
+}
+
+.settings-form {
+  padding: 20px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 0;
+  margin: 10px 0 0;
+}
+
+@media (max-width: 760px) {
+  .two,
+  .three,
+  .readings {
+    grid-template-columns: 1fr;
+  }
+
+  .app-header {
+    align-items: flex-start;
+  }
+
+  .dialog-actions {
+    display: grid;
+  }
+}
