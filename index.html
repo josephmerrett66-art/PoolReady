@@ -1,0 +1,3300 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pool Dose Guide</title>
+    <style>
+:root {
+  color-scheme: light;
+  --bg: #f2f6f5;
+  --surface: #ffffff;
+  --surface-dim: #f8fbfa;
+  --border: #e3ebe8;
+  --text: #0e1917;
+  --text-2: #4d6460;
+  --text-3: #7a9490;
+  --accent: #0d9488;
+  --accent-dark: #0f766e;
+  --accent-faint: #f0fdfa;
+  --accent-light: #ccfbf1;
+  --success-text: #065f46;
+  --success-bg: #ecfdf5;
+  --success-border: #bbf7d0;
+  --warn-text: #92400e;
+  --warn-bg: #fffbeb;
+  --warn-border: #fde68a;
+  --danger-text: #991b1b;
+  --danger-bg: #fef2f2;
+  --danger-border: #fecaca;
+  --shadow: 0 1px 3px rgba(14,25,23,0.06), 0 4px 16px rgba(14,25,23,0.05);
+  --shadow-lg: 0 4px 8px rgba(14,25,23,0.06), 0 16px 40px rgba(14,25,23,0.1);
+  --r: 10px;
+  --r-sm: 7px;
+  --r-lg: 14px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+button, input, select, textarea { font: inherit; }
+
+/* ── HEADER ── */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px clamp(16px, 5vw, 48px);
+  background: rgba(255,255,255,0.88);
+  border-bottom: 1px solid rgba(227,235,232,0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: clamp(1.25rem, 3vw, 1.65rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.eyebrow,
+.step-label {
+  margin: 0 0 3px;
+  font-size: 0.67rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+/* ── SHELL ── */
+.app-shell {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 22px clamp(14px, 4vw, 32px) 64px;
+  display: grid;
+  gap: 12px;
+}
+
+/* ── PANELS ── */
+.panel,
+.recommendations {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+  padding: clamp(20px, 3vw, 28px);
+}
+
+.recommendations {
+  border-top: 3px solid var(--accent);
+}
+
+/* ── PANEL HEADER ── */
+.panel-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.panel-title h2 {
+  margin: 0;
+  font-size: 1.0rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+/* ── GRID ── */
+.grid { display: grid; gap: 12px; }
+.two  { grid-template-columns: repeat(2, minmax(0,1fr)); }
+.three { grid-template-columns: repeat(3, minmax(0,1fr)); }
+.readings { grid-template-columns: repeat(3, minmax(0,1fr)); }
+
+/* ── FIELDS ── */
+.field {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.field span {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-2);
+  letter-spacing: 0.01em;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--surface-dim);
+  color: var(--text);
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color 120ms, box-shadow 120ms, background 120ms;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a9490' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 34px;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(13,148,136,0.11);
+}
+
+.compact { margin-bottom: 0; }
+
+/* ── BUTTONS ── */
+.primary-button,
+.secondary-button,
+.icon-button {
+  border: none;
+  border-radius: var(--r-sm);
+  min-height: 42px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 120ms, opacity 120ms, transform 80ms;
+}
+
+.primary-button:active,
+.secondary-button:active { transform: scale(0.99); }
+
+.primary-button:disabled,
+.secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.primary-button {
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+  padding: 11px 20px;
+  font-size: 0.93rem;
+  letter-spacing: 0.01em;
+}
+
+.primary-button:hover:not(:disabled) { background: var(--accent-dark); }
+
+.secondary-button {
+  background: var(--accent-faint);
+  color: var(--accent-dark);
+  padding: 9px 15px;
+  font-size: 0.86rem;
+}
+
+.secondary-button:hover:not(:disabled) { background: var(--accent-light); }
+
+.icon-button {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  color: var(--text-2);
+  padding: 8px 14px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  min-width: 44px;
+}
+
+.icon-button:hover { background: var(--surface-dim); }
+
+/* ── PHOTO DROP ── */
+.photo-drop {
+  min-height: 128px;
+  border: 2px dashed var(--border);
+  border-radius: var(--r);
+  background: var(--surface-dim);
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  padding: 28px 20px;
+  text-align: center;
+  color: var(--text-3);
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 150ms, background 150ms, color 150ms;
+}
+
+.photo-drop:hover {
+  border-color: var(--accent);
+  background: var(--accent-faint);
+  color: var(--accent);
+}
+
+.photo-drop input {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  opacity: 0;
+}
+
+.photo-icon {
+  display: block;
+  font-size: 1.6rem;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.photo-preview { margin: 14px 0 0; }
+
+.photo-preview img {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+  border-radius: var(--r);
+  border: 1px solid var(--border);
+  background: var(--surface-dim);
+}
+
+.hidden { display: none; }
+
+.helper-text {
+  margin: 10px 0 0;
+  color: var(--text-3);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+/* ── ESTIMATE CARD ── */
+.estimate-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  background: var(--surface-dim);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.estimate-card h3 {
+  font-size: 0.73rem;
+  font-weight: 700;
+  color: var(--text-3);
+  margin: 0 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.estimate-result {
+  color: var(--text-3);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin-top: 8px;
+}
+
+/* ── PHOTO / SERVICE ACTIONS ── */
+.photo-actions {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.service-actions {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap: 8px;
+  margin: 2px 0 12px;
+}
+
+/* ── STATUS BANNERS ── */
+.ocr-status,
+.service-status {
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px 14px;
+  color: var(--text-3);
+  background: var(--surface-dim);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.ocr-status.ready,
+.service-status.ready {
+  color: var(--success-text);
+  background: var(--success-bg);
+  border-color: var(--success-border);
+}
+
+.ocr-status.warn,
+.service-status.warn {
+  color: var(--warn-text);
+  background: var(--warn-bg);
+  border-color: var(--warn-border);
+}
+
+/* ── CARDS ── */
+.status-card,
+.dose-card,
+.note-card,
+.history-item,
+.service-status {
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px;
+  background: var(--surface-dim);
+}
+
+.status-card {
+  color: var(--text-3);
+  font-size: 0.88rem;
+}
+
+.status-card.ready {
+  color: var(--success-text);
+  background: var(--success-bg);
+  border-color: var(--success-border);
+}
+
+.status-card.warn {
+  color: var(--warn-text);
+  background: var(--warn-bg);
+  border-color: var(--warn-border);
+}
+
+/* ── LISTS ── */
+.recommendation-list,
+.notes-list,
+.history-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* ── DOSE CARDS ── */
+.dose-card {
+  background: var(--surface);
+  border-left: 3px solid var(--accent);
+  padding: 16px 18px;
+}
+
+.dose-card strong {
+  display: block;
+  font-size: 0.69rem;
+  font-weight: 700;
+  color: var(--text-3);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.dose-amount {
+  color: var(--text);
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 7px;
+}
+
+.dose-card p,
+.note-card p,
+.history-item p {
+  margin: 0;
+  color: var(--text-3);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+/* ── NOTE CARDS ── */
+.note-card { border-left: 3px solid #f59e0b; }
+
+.note-card.warning {
+  border-left-color: var(--danger-text);
+  background: var(--danger-bg);
+}
+
+.note-card.warning p { color: var(--danger-text); }
+
+/* ── HISTORY ── */
+.history-item {
+  display: grid;
+  gap: 3px;
+}
+
+.history-item h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ── DIALOG ── */
+dialog {
+  width: min(680px, calc(100vw - 24px));
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 0;
+  box-shadow: var(--shadow-lg);
+}
+
+dialog::backdrop {
+  background: rgba(10,18,16,0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.settings-form { padding: 24px; }
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0;
+  margin: 16px 0 0;
+}
+
+/* ── NAV ── */
+.top-nav { display: flex; gap: 6px; flex-wrap: wrap; }
+.icon-button.active {
+  background: var(--accent-faint);
+  border-color: var(--accent);
+  color: var(--accent-dark);
+}
+
+/* ── HISTORY DASHBOARD ── */
+.history-dashboard {
+  display: grid;
+  grid-template-columns: 268px 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.history-sidebar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  position: sticky;
+  top: 72px;
+  max-height: calc(100vh - 96px);
+  display: flex;
+  flex-direction: column;
+}
+
+.history-sidebar-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 18px 16px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.history-sidebar-header h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.history-search {
+  display: block;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  background: var(--surface-dim);
+  color: var(--text);
+  padding: 11px 16px;
+  font-size: 0.86rem;
+  outline: none;
+  appearance: none;
+  flex-shrink: 0;
+  transition: background 120ms, box-shadow 120ms;
+}
+
+.history-search:focus {
+  background: var(--surface);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+.history-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 0;
+}
+
+.history-job {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  padding: 12px 14px 12px 13px;
+  cursor: pointer;
+  transition: background 100ms;
+}
+
+.history-job:hover { background: var(--surface-dim); }
+.history-job:last-child { border-bottom: none; }
+
+.history-job.active {
+  background: var(--accent-faint);
+  border-left-color: var(--accent);
+}
+
+.history-job-name {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+
+.history-job-meta {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-3);
+  margin-bottom: 7px;
+}
+
+.history-job-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.reading-chip {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-2);
+  background: var(--surface-dim);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 2px 7px;
+}
+
+.history-job.active .reading-chip {
+  background: var(--accent-light);
+  border-color: rgba(13,148,136,0.3);
+  color: var(--accent-dark);
+}
+
+/* ── HISTORY MAIN ── */
+.history-main { min-width: 0; }
+
+.empty-state {
+  color: var(--text-3);
+  font-size: 0.88rem;
+  text-align: center;
+  padding: 48px 20px;
+  margin: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+}
+
+/* ── CLIENT DETAIL HEADER ── */
+.client-detail-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  margin-bottom: 12px;
+}
+
+.client-detail-title h3 {
+  margin: 4px 0 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.client-load-btn {
+  width: auto !important;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 0.86rem;
+}
+
+.client-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.client-meta-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  box-shadow: var(--shadow);
+}
+
+.client-meta-item span {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-3);
+  margin-bottom: 4px;
+}
+
+.client-meta-item strong {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ── SECTION LABEL ── */
+.section-label {
+  font-size: 0.67rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin: 0 0 8px;
+}
+
+/* ── CHART ACCORDION ── */
+.chart-accordion {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.chart-accordion-heading {
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.chart-item {
+  border-bottom: 1px solid var(--border);
+}
+
+.chart-item:last-child { border-bottom: none; }
+
+.chart-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 11px 16px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 100ms;
+}
+
+.chart-trigger:hover { background: var(--surface-dim); }
+.chart-item.open > .chart-trigger { background: var(--accent-faint); }
+
+.chart-trigger-label {
+  flex: 1;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.chart-trigger-value {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+  background: var(--accent-light);
+  border-radius: 100px;
+  padding: 2px 9px;
+}
+
+.chart-trigger-arrow {
+  font-size: 1rem;
+  color: var(--text-3);
+  transition: transform 180ms;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.chart-item.open > .chart-trigger .chart-trigger-arrow { transform: rotate(90deg); }
+
+.chart-canvas-wrap {
+  padding: 4px 14px 16px;
+  height: 220px;
+  position: relative;
+}
+
+.chart-canvas { display: block; width: 100% !important; height: 100% !important; }
+
+.chart-need-data {
+  color: var(--text-3);
+  font-size: 0.84rem;
+  text-align: center;
+  padding: 32px 20px;
+  margin: 0;
+}
+
+/* ── VISIT CARDS ── */
+.visit-list { display: grid; gap: 8px; }
+
+.visit-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.visit-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 14px 16px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 100ms;
+}
+
+.visit-summary:hover { background: var(--surface-dim); }
+.visit-card.open > .visit-summary { background: var(--accent-faint); }
+
+.visit-summary-main { flex: 1; min-width: 0; }
+
+.visit-summary-main strong {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.visit-summary-sub {
+  font-size: 0.75rem;
+  color: var(--text-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.visit-chips { display: flex; flex-wrap: wrap; gap: 4px; flex-shrink: 0; }
+
+.visit-arrow {
+  font-size: 1rem;
+  color: var(--text-3);
+  transition: transform 180ms;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.visit-card.open > .visit-summary .visit-arrow { transform: rotate(90deg); }
+
+.visit-body {
+  border-top: 1px solid var(--border);
+  padding: 16px;
+}
+
+.visit-body-inner { display: grid; gap: 14px; }
+
+.visit-section-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-3);
+  margin: 0 0 8px;
+}
+
+.readings-table {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+}
+
+.visit-reading {
+  background: var(--surface-dim);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 8px 10px;
+}
+
+.visit-reading span {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--text-3);
+  margin-bottom: 2px;
+}
+
+.visit-reading strong {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.visit-dose {
+  border-left: 3px solid var(--accent);
+  padding: 8px 12px;
+  background: var(--surface-dim);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  margin-bottom: 6px;
+}
+
+.visit-dose:last-of-type { margin-bottom: 0; }
+
+.visit-dose span {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-3);
+  margin-bottom: 3px;
+}
+
+.visit-dose strong {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+
+.visit-dose p {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-3);
+  line-height: 1.45;
+}
+
+.visit-note {
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  margin: 0 0 6px;
+}
+
+.visit-note.info, .visit-note.ready {
+  background: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid var(--success-border);
+}
+
+.visit-note.warning {
+  background: var(--danger-bg);
+  color: var(--danger-text);
+  border: 1px solid var(--danger-border);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 760px) {
+  .two, .three, .readings { grid-template-columns: 1fr; }
+  .app-header { align-items: flex-start; }
+  .dialog-actions { display: grid; }
+  .service-actions { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 700px) {
+  .history-dashboard { grid-template-columns: 1fr; }
+  .history-sidebar { position: static; max-height: 42vh; }
+  .client-meta-grid { grid-template-columns: repeat(2, 1fr); }
+  .readings-table { grid-template-columns: 1fr; }
+  .client-detail-header { flex-direction: column; }
+  .client-load-btn { width: 100% !important; }
+  .visit-chips { display: none; }
+}
+
+/* ── STOCK PAGE ── */
+.stock-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.stock-entry-panel {
+  position: sticky;
+  top: 72px;
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+}
+
+.entry-type-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.entry-type-btn {
+  background: none;
+  border: none;
+  padding: 9px 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: background 120ms, color 120ms;
+}
+
+.entry-type-btn:first-child { border-right: 1.5px solid var(--border); }
+
+.entry-type-btn:hover { background: var(--surface-dim); }
+
+.entry-type-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.entry-type-hint {
+  margin: 0 0 14px;
+  font-size: 0.8rem;
+  color: var(--text-3);
+  line-height: 1.5;
+}
+
+.stock-detail { display: grid; gap: 12px; min-width: 0; }
+
+/* ── RECONCILIATION CARD ── */
+.recon-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+  padding: clamp(18px, 3vw, 24px);
+}
+
+.recon-period {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.recon-period h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.recon-meta {
+  font-size: 0.78rem;
+  color: var(--text-3);
+  margin: 0 0 16px;
+}
+
+.recon-table { display: grid; gap: 6px; }
+
+.recon-row {
+  display: grid;
+  grid-template-columns: 1fr 80px 80px 100px;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface-dim);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+}
+
+.recon-row.header {
+  background: none;
+  border: none;
+  padding: 0 12px 4px;
+}
+
+.recon-row.header span {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-3);
+}
+
+.recon-row-name {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.recon-row-val {
+  font-size: 0.84rem;
+  color: var(--text-2);
+  text-align: right;
+}
+
+.variance-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 100px;
+  padding: 3px 9px;
+  justify-content: center;
+}
+
+.variance-chip.over {
+  background: #fffbeb;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.variance-chip.under {
+  background: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid var(--success-border);
+}
+
+.variance-chip.match {
+  background: var(--accent-faint);
+  color: var(--accent-dark);
+  border: 1px solid var(--accent-light);
+}
+
+.variance-chip.no-data {
+  background: var(--surface-dim);
+  color: var(--text-3);
+  border: 1px solid var(--border);
+}
+
+.recon-clients {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--text-3);
+  line-height: 1.5;
+}
+
+.recon-empty {
+  text-align: center;
+  padding: 32px 20px;
+  color: var(--text-3);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+/* ── STOCK LOG ── */
+.stock-log-list { display: grid; gap: 8px; }
+
+.stock-event-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  background: var(--surface-dim);
+  padding: 14px 16px;
+}
+
+.stock-event-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.stock-type-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 100px;
+  padding: 2px 9px;
+}
+
+.stock-type-badge.topup {
+  background: var(--accent-faint);
+  color: var(--accent-dark);
+  border: 1px solid var(--accent-light);
+}
+
+.stock-type-badge.snapshot {
+  background: #f5f3ff;
+  color: #5b21b6;
+  border: 1px solid #ddd6fe;
+}
+
+.stock-event-date {
+  flex: 1;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.stock-event-note {
+  font-size: 0.78rem;
+  color: var(--text-3);
+  margin-bottom: 8px;
+}
+
+.stock-quantities {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.stock-qty-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 6px 9px;
+}
+
+.stock-qty-item span {
+  display: block;
+  font-size: 0.62rem;
+  color: var(--text-3);
+  margin-bottom: 1px;
+}
+
+.stock-qty-item strong {
+  font-size: 0.82rem;
+  color: var(--text);
+}
+
+.stock-event-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.delete-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--text-3);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 100ms, color 100ms;
+}
+
+.delete-btn:hover {
+  background: var(--danger-bg);
+  color: var(--danger-text);
+  border-color: var(--danger-border);
+}
+
+@media (max-width: 700px) {
+  .stock-layout { grid-template-columns: 1fr; }
+  .stock-entry-panel { position: static; max-height: none; }
+  .recon-row { grid-template-columns: 1fr 70px 70px 90px; gap: 4px; }
+  .stock-quantities { grid-template-columns: repeat(2, 1fr); }
+}
+    </style>
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Technician guide</p>
+        <h1>Pool Dose Guide</h1>
+      </div>
+      <nav class="top-nav" aria-label="Pool tools">
+        <button class="icon-button" id="doseNavButton" type="button">Dose Guide</button>
+        <button class="icon-button" id="historyNavButton" type="button">Previous Jobs</button>
+        <button class="icon-button" id="stockNavButton" type="button">Stocktake</button>
+        <button class="icon-button" id="settingsButton" type="button" aria-label="Product settings" title="Product settings">Settings</button>
+      </nav>
+    </header>
+
+    <main class="app-shell">
+      <div class="app-page" id="dosePage">
+      <section class="panel pool-panel" aria-labelledby="poolHeading">
+        <div class="panel-title">
+          <div>
+            <p class="step-label">Step 1</p>
+            <h2 id="poolHeading">Pool Profile</h2>
+          </div>
+          <button class="secondary-button" id="newPoolButton" type="button">New</button>
+        </div>
+
+        <label class="field">
+          <span>Saved pool</span>
+          <select id="poolSelect"></select>
+        </label>
+
+        <div class="grid two">
+          <label class="field">
+            <span>Customer / site</span>
+            <input id="poolName" type="text" autocomplete="off" placeholder="Smith residence">
+          </label>
+          <label class="field">
+            <span>Volume (litres)</span>
+            <input id="poolVolume" type="number" min="1000" step="500" inputmode="numeric" placeholder="50000">
+          </label>
+        </div>
+
+        <div class="estimate-card">
+          <h3>Estimate volume from pool size</h3>
+          <div class="grid three">
+            <label class="field compact">
+              <span>Length (m)</span>
+              <input id="poolLength" type="number" min="1" step="0.1" inputmode="decimal" placeholder="8.0">
+            </label>
+            <label class="field compact">
+              <span>Width (m)</span>
+              <input id="poolWidth" type="number" min="1" step="0.1" inputmode="decimal" placeholder="4.0">
+            </label>
+            <label class="field compact">
+              <span>Average depth (m)</span>
+              <input id="poolDepth" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="1.5">
+            </label>
+          </div>
+          <button class="secondary-button" id="estimateVolumeButton" type="button">Use Estimated Volume</button>
+          <div class="estimate-result" id="volumeEstimateStatus">
+            Enter approximate size to estimate litres.
+          </div>
+        </div>
+
+        <div class="grid three">
+          <label class="field">
+            <span>Chlorination type</span>
+            <select id="poolType">
+              <option>Salt</option>
+              <option>Naked / NKD</option>
+              <option>Chlorine</option>
+              <option>Mineral</option>
+              <option>Spa</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Surface</span>
+            <select id="surfaceType">
+              <option>Concrete</option>
+              <option>Fibreglass</option>
+              <option>Vinyl</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Volume confidence</span>
+            <select id="volumeConfidence">
+              <option>Estimated</option>
+              <option>Confirmed</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Site notes</span>
+          <textarea id="poolNotes" rows="2" placeholder="Access, equipment, unusual dosing notes"></textarea>
+        </label>
+
+        <button class="primary-button" id="savePoolButton" type="button">Save Pool</button>
+      </section>
+
+      <section class="panel hidden" aria-labelledby="serviceM8Heading">
+        <div class="panel-title">
+          <div>
+            <p class="step-label">Optional</p>
+            <h2 id="serviceM8Heading">ServiceM8 Job Link</h2>
+          </div>
+        </div>
+
+        <div class="grid two">
+          <label class="field">
+            <span>Secure proxy URL</span>
+            <input id="serviceM8ProxyUrl" type="url" autocomplete="off" placeholder="https://your-worker.workers.dev">
+          </label>
+          <label class="field">
+            <span>Job UUID or job number</span>
+            <input id="serviceM8JobLookup" type="text" autocomplete="off" placeholder="12345 or job uuid">
+          </label>
+        </div>
+
+        <div class="service-actions">
+          <button class="secondary-button" id="saveServiceM8SettingsButton" type="button">Save Link Settings</button>
+          <button class="primary-button" id="loadServiceM8JobButton" type="button">Load ServiceM8 Job</button>
+        </div>
+
+        <div class="service-status" id="serviceM8Status">
+          Connect a secure proxy before loading ServiceM8 jobs. Do not put a ServiceM8 API key in this page.
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="photoHeading">
+        <div class="panel-title">
+          <div>
+            <p class="step-label">Step 2</p>
+            <h2 id="photoHeading">Photo Result Entry</h2>
+          </div>
+        </div>
+
+        <label class="photo-drop" for="resultPhoto">
+          <input id="resultPhoto" type="file" accept="image/*" capture="environment">
+          <span class="photo-icon" aria-hidden="true">Photo</span>
+          <span>Take or upload Spin Touch result photo</span>
+        </label>
+
+        <figure class="photo-preview hidden" id="photoPreviewWrap">
+          <img id="photoPreview" alt="Uploaded test result preview">
+        </figure>
+
+        <div class="photo-actions">
+          <button class="primary-button" id="readPhotoButton" type="button" disabled>Read Photo</button>
+          <div class="ocr-status" id="ocrStatus">
+            Upload a clear, close photo of the Spin Touch result screen.
+          </div>
+        </div>
+
+        <p class="helper-text">
+          The photo reader fills the result fields below. Always check the extracted numbers before calculating.
+        </p>
+      </section>
+
+      <section class="panel" aria-labelledby="readingsHeading">
+        <div class="panel-title">
+          <div>
+            <p class="step-label">Step 3</p>
+            <h2 id="readingsHeading">Confirm Readings</h2>
+          </div>
+          <button class="secondary-button" id="sampleButton" type="button">Sample</button>
+        </div>
+
+        <div class="grid readings">
+          <label class="field compact">
+            <span>Free chlorine ppm</span>
+            <input id="freeChlorine" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+          <label class="field compact">
+            <span>Total chlorine ppm</span>
+            <input id="totalChlorine" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+          <label class="field compact">
+            <span>Combined chlorine ppm</span>
+            <input id="combinedChlorine" type="number" min="0" step="0.01" inputmode="decimal">
+          </label>
+          <label class="field compact">
+            <span>pH</span>
+            <input id="ph" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+          <label class="field compact">
+            <span>Alkalinity ppm</span>
+            <input id="alkalinity" type="number" min="0" step="1" inputmode="decimal">
+          </label>
+          <label class="field compact">
+            <span>Hardness ppm</span>
+            <input id="hardness" type="number" min="0" step="1" inputmode="decimal">
+          </label>
+          <label class="field compact">
+            <span>CYA ppm</span>
+            <input id="cya" type="number" min="0" step="1" inputmode="decimal">
+          </label>
+          <label class="field compact">
+            <span>Salt ppm</span>
+            <input id="salt" type="number" min="0" step="10" inputmode="decimal">
+          </label>
+          <label class="field compact">
+            <span>Phosphate ppb</span>
+            <input id="phosphate" type="number" min="0" step="10" inputmode="decimal">
+          </label>
+          <label class="field compact">
+            <span>Copper ppm</span>
+            <input id="copper" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+        </div>
+
+        <button class="primary-button" id="calculateButton" type="button">Calculate Dose Guide</button>
+      </section>
+
+      <section class="recommendations" aria-labelledby="recommendationHeading">
+        <div class="panel-title">
+          <div>
+            <p class="step-label">Step 4</p>
+            <h2 id="recommendationHeading">Technician Recommended Dosing</h2>
+          </div>
+        </div>
+
+        <div class="status-card" id="statusCard">
+          Add the pool profile and confirmed readings, then calculate.
+        </div>
+
+        <div class="recommendation-list" id="recommendationList"></div>
+        <div class="notes-list" id="notesList"></div>
+      </section>
+      </div>
+
+      <div class="app-page hidden" id="historyPage">
+        <div class="history-dashboard">
+          <aside class="history-sidebar" aria-labelledby="historyHeading">
+            <div class="history-sidebar-header">
+              <div>
+                <p class="step-label">Dashboard</p>
+                <h2 id="historyHeading">Previous Jobs</h2>
+              </div>
+              <button class="icon-button" id="clearHistoryButton" type="button">Clear all</button>
+            </div>
+            <input class="history-search" id="historySearch" type="search" placeholder="Search clients…" autocomplete="off">
+            <div class="history-list" id="historyList"></div>
+          </aside>
+          <div class="history-main" id="historyDetail" aria-label="Client detail"></div>
+        </div>
+      </div>
+
+      <div class="app-page hidden" id="stockPage">
+        <div class="stock-layout">
+
+          <!-- LEFT: entry form -->
+          <aside class="stock-entry-panel panel" aria-labelledby="stockEntryHeading">
+            <div class="panel-title">
+              <div>
+                <p class="step-label">Log</p>
+                <h2 id="stockEntryHeading">Stock Entry</h2>
+              </div>
+            </div>
+
+            <div class="entry-type-toggle">
+              <button class="entry-type-btn active" id="topupTypeBtn" type="button">Top-up</button>
+              <button class="entry-type-btn" id="snapshotTypeBtn" type="button">Stocktake</button>
+            </div>
+            <p class="entry-type-hint" id="entryTypeHint">Recording a top-up: enter the quantities you are loading onto the ute now.</p>
+
+            <label class="field">
+              <span>Liquid chlorine (L)</span>
+              <input id="stockChlorine" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0">
+            </label>
+            <label class="field">
+              <span>Hydrochloric acid (L)</span>
+              <input id="stockAcid" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0">
+            </label>
+            <label class="field">
+              <span>Alkalinity buffer (kg)</span>
+              <input id="stockBuffer" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0">
+            </label>
+            <label class="field">
+              <span>Stabiliser / CYA (kg)</span>
+              <input id="stockStabiliser" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0">
+            </label>
+            <label class="field">
+              <span>Salt (kg)</span>
+              <input id="stockSalt" type="number" min="0" step="1" inputmode="decimal" placeholder="0">
+            </label>
+            <label class="field">
+              <span>Phosphate remover (L)</span>
+              <input id="stockPhosphate" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0">
+            </label>
+            <label class="field">
+              <span>Note (optional)</span>
+              <input id="stockNote" type="text" autocomplete="off" placeholder="e.g. Monday top-up">
+            </label>
+
+            <button class="primary-button" id="saveStockEventButton" type="button" data-stock-type="topup">Save Top-up</button>
+          </aside>
+
+          <!-- RIGHT: reconciliation + log -->
+          <div class="stock-detail">
+            <div id="stockReconciliation"></div>
+            <div class="panel">
+              <div class="panel-title">
+                <div>
+                  <p class="step-label">History</p>
+                  <h2>Stock Log</h2>
+                </div>
+                <button class="icon-button" id="clearStockButton" type="button">Clear all</button>
+              </div>
+              <div id="stockLog"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+    <dialog id="settingsDialog">
+      <form method="dialog" class="settings-form">
+        <div class="panel-title">
+          <div>
+            <p class="step-label">Company products</p>
+            <h2>Product Settings</h2>
+          </div>
+          <button class="icon-button" value="cancel" type="submit" aria-label="Close settings" title="Close">Close</button>
+        </div>
+
+        <div class="grid two">
+          <label class="field">
+            <span>Liquid chlorine ml / 10,000 L / 1 ppm</span>
+            <input id="settingChlorine" type="number" min="1" step="1" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Acid ml / 10,000 L / 0.1 pH drop</span>
+            <input id="settingAcid" type="number" min="1" step="1" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Max acid per service (ml)</span>
+            <input id="settingMaxAcid" type="number" min="1" step="100" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Soda ash g / 10,000 L / 0.1 pH lift</span>
+            <input id="settingSodaAsh" type="number" min="1" step="1" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Buffer g / 10,000 L / 10 ppm TA</span>
+            <input id="settingBuffer" type="number" min="1" step="1" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Stabiliser g / 10,000 L / 10 ppm</span>
+            <input id="settingStabiliser" type="number" min="1" step="1" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Salt kg / 10,000 L / 500 ppm</span>
+            <input id="settingSalt" type="number" min="0.1" step="0.1" inputmode="decimal">
+          </label>
+          <label class="field">
+            <span>Phosphate remover ml / 10,000 L / 100 ppb</span>
+            <input id="settingPhosphate" type="number" min="1" step="1" inputmode="numeric">
+          </label>
+        </div>
+
+        <div class="grid two">
+          <label class="field">
+            <span>Target free chlorine</span>
+            <input id="targetChlorine" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+          <label class="field">
+            <span>Target pH</span>
+            <input id="targetPh" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+          <label class="field">
+            <span>Target alkalinity</span>
+            <input id="targetAlkalinity" type="number" min="0" step="1" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Target CYA</span>
+            <input id="targetCya" type="number" min="0" step="1" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Target salt</span>
+            <input id="targetSalt" type="number" min="0" step="10" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Phosphate max</span>
+            <input id="targetPhosphate" type="number" min="0" step="10" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Salt action threshold</span>
+            <input id="saltActionThreshold" type="number" min="0" step="10" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span>Naked salt action threshold</span>
+            <input id="nakedSaltActionThreshold" type="number" min="0" step="10" inputmode="numeric">
+          </label>
+        </div>
+
+        <menu class="dialog-actions">
+          <button class="secondary-button" id="resetSettingsButton" type="button">Reset Defaults</button>
+          <button class="primary-button" id="saveSettingsButton" value="default" type="submit">Save Settings</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <script>
+const STORE_KEYS = {
+  pools: "pool-dose-guide:pools",
+  activePool: "pool-dose-guide:active-pool",
+  history: "pool-dose-guide:history",
+  settings: "pool-dose-guide:settings",
+  serviceM8: "pool-dose-guide:servicem8",
+  stock: "pool-dose-guide:stock"
+};
+
+const DEFAULT_SETTINGS = {
+  chlorineMlPer10000Per1: 80,
+  acidMlPer10000Per01: 75,
+  maxAcidMl: 2000,
+  sodaAshGPer10000Per01: 75,
+  bufferGPer10000Per10: 170,
+  stabiliserGPer10000Per10: 100,
+  saltKgPer10000Per500: 5,
+  phosphateMlPer10000Per100: 60,
+  targetChlorine: 3,
+  targetPh: 7.4,
+  targetAlkalinity: 130,
+  targetCya: 40,
+  targetSalt: 4000,
+  targetPhosphate: 200,
+  saltActionThreshold: 3000,
+  nakedSaltActionThreshold: 1000
+};
+
+const COMPANY_RULES = {
+  alkalinityTarget: 130,
+  maxAcidMl: 2000
+};
+
+const els = {
+  settingsButton: document.querySelector("#settingsButton"),
+  doseNavButton: document.querySelector("#doseNavButton"),
+  historyNavButton: document.querySelector("#historyNavButton"),
+  stockNavButton: document.querySelector("#stockNavButton"),
+  dosePage: document.querySelector("#dosePage"),
+  historyPage: document.querySelector("#historyPage"),
+  settingsDialog: document.querySelector("#settingsDialog"),
+  saveSettingsButton: document.querySelector("#saveSettingsButton"),
+  resetSettingsButton: document.querySelector("#resetSettingsButton"),
+  newPoolButton: document.querySelector("#newPoolButton"),
+  savePoolButton: document.querySelector("#savePoolButton"),
+  poolSelect: document.querySelector("#poolSelect"),
+  poolName: document.querySelector("#poolName"),
+  poolVolume: document.querySelector("#poolVolume"),
+  poolLength: document.querySelector("#poolLength"),
+  poolWidth: document.querySelector("#poolWidth"),
+  poolDepth: document.querySelector("#poolDepth"),
+  estimateVolumeButton: document.querySelector("#estimateVolumeButton"),
+  volumeEstimateStatus: document.querySelector("#volumeEstimateStatus"),
+  poolType: document.querySelector("#poolType"),
+  surfaceType: document.querySelector("#surfaceType"),
+  volumeConfidence: document.querySelector("#volumeConfidence"),
+  poolNotes: document.querySelector("#poolNotes"),
+  serviceM8ProxyUrl: document.querySelector("#serviceM8ProxyUrl"),
+  serviceM8JobLookup: document.querySelector("#serviceM8JobLookup"),
+  saveServiceM8SettingsButton: document.querySelector("#saveServiceM8SettingsButton"),
+  loadServiceM8JobButton: document.querySelector("#loadServiceM8JobButton"),
+  serviceM8Status: document.querySelector("#serviceM8Status"),
+  resultPhoto: document.querySelector("#resultPhoto"),
+  readPhotoButton: document.querySelector("#readPhotoButton"),
+  ocrStatus: document.querySelector("#ocrStatus"),
+  photoPreviewWrap: document.querySelector("#photoPreviewWrap"),
+  photoPreview: document.querySelector("#photoPreview"),
+  sampleButton: document.querySelector("#sampleButton"),
+  calculateButton: document.querySelector("#calculateButton"),
+  statusCard: document.querySelector("#statusCard"),
+  recommendationList: document.querySelector("#recommendationList"),
+  notesList: document.querySelector("#notesList"),
+  historyList: document.querySelector("#historyList"),
+  historyDetail: document.querySelector("#historyDetail"),
+  historySearch: document.querySelector("#historySearch"),
+  clearHistoryButton: document.querySelector("#clearHistoryButton"),
+  stockPage: document.querySelector("#stockPage"),
+  topupTypeBtn: document.querySelector("#topupTypeBtn"),
+  snapshotTypeBtn: document.querySelector("#snapshotTypeBtn"),
+  saveStockEventButton: document.querySelector("#saveStockEventButton"),
+  clearStockButton: document.querySelector("#clearStockButton"),
+  stockReconciliation: document.querySelector("#stockReconciliation"),
+  stockLog: document.querySelector("#stockLog"),
+  entryTypeHint: document.querySelector("#entryTypeHint"),
+  stockNote: document.querySelector("#stockNote")
+};
+
+const readingIds = [
+  "freeChlorine",
+  "totalChlorine",
+  "combinedChlorine",
+  "ph",
+  "alkalinity",
+  "hardness",
+  "cya",
+  "salt",
+  "phosphate",
+  "copper"
+];
+
+const settingMap = {
+  settingChlorine: "chlorineMlPer10000Per1",
+  settingAcid: "acidMlPer10000Per01",
+  settingMaxAcid: "maxAcidMl",
+  settingSodaAsh: "sodaAshGPer10000Per01",
+  settingBuffer: "bufferGPer10000Per10",
+  settingStabiliser: "stabiliserGPer10000Per10",
+  settingSalt: "saltKgPer10000Per500",
+  settingPhosphate: "phosphateMlPer10000Per100",
+  targetChlorine: "targetChlorine",
+  targetPh: "targetPh",
+  targetAlkalinity: "targetAlkalinity",
+  targetCya: "targetCya",
+  targetSalt: "targetSalt",
+  targetPhosphate: "targetPhosphate",
+  saltActionThreshold: "saltActionThreshold",
+  nakedSaltActionThreshold: "nakedSaltActionThreshold"
+};
+
+let pools = loadJson(STORE_KEYS.pools, []);
+let history = loadJson(STORE_KEYS.history, []);
+let settings = { ...DEFAULT_SETTINGS, ...loadJson(STORE_KEYS.settings, {}) };
+let serviceM8Settings = loadJson(STORE_KEYS.serviceM8, { proxyUrl: "" });
+let stockEvents = loadJson(STORE_KEYS.stock, []);
+let activePoolId = localStorage.getItem(STORE_KEYS.activePool);
+let selectedPhotoDataUrl = "";
+let activeServiceM8Context = null;
+let activeHistoryPoolName = "";
+
+function showPage(pageName) {
+  const showingDose    = pageName === "dose";
+  const showingHistory = pageName === "history";
+  const showingStock   = pageName === "stock";
+  els.dosePage.classList.toggle("hidden", !showingDose);
+  els.historyPage.classList.toggle("hidden", !showingHistory);
+  els.stockPage.classList.toggle("hidden", !showingStock);
+  els.doseNavButton.classList.toggle("active", showingDose);
+  els.historyNavButton.classList.toggle("active", showingHistory);
+  els.stockNavButton.classList.toggle("active", showingStock);
+  if (showingHistory) renderHistory();
+  if (showingStock) renderStockPage();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function loadJson(key, fallback) {
+  try {
+    return JSON.parse(localStorage.getItem(key)) ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function saveJson(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+function createId() {
+  if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
+  return `id-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function numberValue(id) {
+  const input = document.querySelector(`#${id}`);
+  const value = Number(input.value);
+  return Number.isFinite(value) ? value : null;
+}
+
+function setValue(id, value) {
+  document.querySelector(`#${id}`).value = value ?? "";
+}
+
+function setServiceM8Status(message, style = "") {
+  if (!els.serviceM8Status) return;
+  els.serviceM8Status.className = `service-status ${style}`.trim();
+  els.serviceM8Status.textContent = message;
+}
+
+function rounded(value, places = 1) {
+  const factor = 10 ** places;
+  return Math.round(value * factor) / factor;
+}
+
+function formatAmount(value, unit) {
+  if (value <= 0) return `0 ${unit}`;
+  if (unit === "L" && value < 1) return `${Math.round(value * 1000)} ml`;
+  if (unit === "L") return `${rounded(value, 2)} L`;
+  if (unit === "kg" && value < 1) return `${Math.round(value * 1000)} g`;
+  if (unit === "kg") return `${rounded(value, 2)} kg`;
+  if (unit === "g" && value >= 1000) return `${rounded(value / 1000, 2)} kg`;
+  if (unit === "ml" && value >= 1000) return `${rounded(value / 1000, 2)} L`;
+  return `${Math.round(value)} ${unit}`;
+}
+
+function getActivePool() {
+  return pools.find((pool) => pool.id === activePoolId) ?? null;
+}
+
+function renderPoolOptions() {
+  els.poolSelect.innerHTML = "";
+
+  if (pools.length === 0) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "No saved pools yet";
+    els.poolSelect.append(option);
+    clearPoolForm();
+    return;
+  }
+
+  pools.forEach((pool) => {
+    const option = document.createElement("option");
+    option.value = pool.id;
+    option.textContent = `${pool.name} - ${Number(pool.volume).toLocaleString()} L`;
+    els.poolSelect.append(option);
+  });
+
+  if (!pools.some((pool) => pool.id === activePoolId)) {
+    activePoolId = pools[0].id;
+  }
+
+  els.poolSelect.value = activePoolId;
+  localStorage.setItem(STORE_KEYS.activePool, activePoolId);
+  fillPoolForm(getActivePool());
+}
+
+function clearPoolForm() {
+  activePoolId = "";
+  els.poolName.value = "";
+  els.poolVolume.value = "";
+  els.poolLength.value = "";
+  els.poolWidth.value = "";
+  els.poolDepth.value = "";
+  els.poolType.value = "Salt";
+  els.surfaceType.value = "Concrete";
+  els.volumeConfidence.value = "Estimated";
+  els.poolNotes.value = "";
+  setVolumeEstimateStatus("Enter approximate size to estimate litres.");
+}
+
+function fillPoolForm(pool) {
+  if (!pool) return clearPoolForm();
+  els.poolName.value = pool.name;
+  els.poolVolume.value = pool.volume;
+  els.poolLength.value = pool.length || "";
+  els.poolWidth.value = pool.width || "";
+  els.poolDepth.value = pool.depth || "";
+  els.poolType.value = pool.poolType;
+  els.surfaceType.value = pool.surfaceType;
+  els.volumeConfidence.value = pool.volumeConfidence;
+  els.poolNotes.value = pool.notes;
+  updateVolumeEstimateStatus();
+}
+
+function savePool() {
+  const name = els.poolName.value.trim();
+  const volume = Number(els.poolVolume.value);
+
+  if (!name || !Number.isFinite(volume) || volume < 1000) {
+    setStatus("Enter a site name and pool volume before saving.", "warn");
+    return;
+  }
+
+  const pool = {
+    id: activePoolId || createId(),
+    name,
+    volume,
+    length: numberValue("poolLength"),
+    width: numberValue("poolWidth"),
+    depth: numberValue("poolDepth"),
+    poolType: els.poolType.value,
+    surfaceType: els.surfaceType.value,
+    volumeConfidence: els.volumeConfidence.value,
+    notes: els.poolNotes.value.trim(),
+    serviceM8JobUuid: activeServiceM8Context?.jobUuid || null,
+    serviceM8CompanyUuid: activeServiceM8Context?.companyUuid || null,
+    serviceM8JobNumber: activeServiceM8Context?.jobNumber || null,
+    updatedAt: new Date().toISOString()
+  };
+
+  const existingIndex = pools.findIndex((item) => item.id === pool.id);
+  if (existingIndex >= 0) {
+    pools[existingIndex] = pool;
+  } else {
+    pools.push(pool);
+  }
+
+  activePoolId = pool.id;
+  saveJson(STORE_KEYS.pools, pools);
+  localStorage.setItem(STORE_KEYS.activePool, activePoolId);
+  renderPoolOptions();
+  setStatus("Pool profile saved.", "ready");
+}
+
+function setVolumeEstimateStatus(message) {
+  if (!els.volumeEstimateStatus) return;
+  els.volumeEstimateStatus.textContent = message;
+}
+
+function estimateVolumeFromSize() {
+  const length = numberValue("poolLength");
+  const width = numberValue("poolWidth");
+  const depth = numberValue("poolDepth");
+
+  if (!length || !width || !depth) {
+    setVolumeEstimateStatus("Enter length, width, and average depth to estimate litres.");
+    return null;
+  }
+
+  const litres = Math.round((length * width * depth * 1000) / 500) * 500;
+  setVolumeEstimateStatus(`Approximate volume: ${litres.toLocaleString()} L.`);
+  return litres;
+}
+
+function updateVolumeEstimateStatus() {
+  const length = numberValue("poolLength");
+  const width = numberValue("poolWidth");
+  const depth = numberValue("poolDepth");
+
+  if (length && width && depth) {
+    estimateVolumeFromSize();
+  } else {
+    setVolumeEstimateStatus("Enter approximate size to estimate litres.");
+  }
+}
+
+function useEstimatedVolume() {
+  const litres = estimateVolumeFromSize();
+  if (!litres) return;
+
+  els.poolVolume.value = litres;
+  els.volumeConfidence.value = "Estimated";
+  setStatus("Estimated pool volume added. Save the pool once the profile looks right.", "ready");
+}
+
+function openSettings() {
+  Object.entries(settingMap).forEach(([inputId, key]) => {
+    setValue(inputId, settings[key]);
+  });
+  els.settingsDialog.showModal();
+}
+
+function saveSettings() {
+  Object.entries(settingMap).forEach(([inputId, key]) => {
+    const value = numberValue(inputId);
+    if (value !== null) settings[key] = value;
+  });
+  saveJson(STORE_KEYS.settings, settings);
+  setStatus("Product settings saved.", "ready");
+}
+
+function resetSettings() {
+  settings = { ...DEFAULT_SETTINGS };
+  saveJson(STORE_KEYS.settings, settings);
+  openSettings();
+}
+
+function getReadings() {
+  return Object.fromEntries(readingIds.map((id) => [id, numberValue(id)]));
+}
+
+function saveServiceM8Settings() {
+  serviceM8Settings = {
+    proxyUrl: normalizeUrl(els.serviceM8ProxyUrl.value.trim())
+  };
+  saveJson(STORE_KEYS.serviceM8, serviceM8Settings);
+  els.serviceM8ProxyUrl.value = serviceM8Settings.proxyUrl;
+  setServiceM8Status("ServiceM8 link settings saved.", "ready");
+}
+
+function normalizeUrl(value) {
+  return value.replace(/\/+$/, "");
+}
+
+function isUuidLike(value) {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value.trim());
+}
+
+async function loadServiceM8Job() {
+  const proxyUrl = normalizeUrl(els.serviceM8ProxyUrl.value.trim() || serviceM8Settings.proxyUrl);
+  const lookup = els.serviceM8JobLookup.value.trim();
+
+  if (!proxyUrl) {
+    setServiceM8Status("Enter and save your secure proxy URL first.", "warn");
+    return;
+  }
+
+  if (!lookup) {
+    setServiceM8Status("Enter a ServiceM8 job UUID or job number.", "warn");
+    return;
+  }
+
+  serviceM8Settings.proxyUrl = proxyUrl;
+  saveJson(STORE_KEYS.serviceM8, serviceM8Settings);
+  els.loadServiceM8JobButton.disabled = true;
+  setServiceM8Status("Loading ServiceM8 job...", "");
+
+  try {
+    const queryKey = isUuidLike(lookup) ? "uuid" : "jobNumber";
+    const response = await fetch(`${proxyUrl}/api/job?${queryKey}=${encodeURIComponent(lookup)}`);
+
+    if (!response.ok) {
+      throw new Error(`ServiceM8 request failed: ${response.status}`);
+    }
+
+    const payload = await response.json();
+    applyServiceM8Job(payload);
+  } catch (error) {
+    console.error(error);
+    setServiceM8Status("Could not load that ServiceM8 job. Check the proxy URL, API key setup, and job number.", "warn");
+  } finally {
+    els.loadServiceM8JobButton.disabled = false;
+  }
+}
+
+function applyServiceM8Job(payload) {
+  const job = payload.job || {};
+  const company = payload.company || {};
+  const companyUuid = job.company_uuid || company.uuid || null;
+  const jobUuid = job.uuid || payload.job_uuid || null;
+  const jobNumber = job.generated_job_id || job.job_number || null;
+  const existingPool = companyUuid
+    ? pools.find((pool) => pool.serviceM8CompanyUuid === companyUuid)
+    : null;
+
+  activeServiceM8Context = { jobUuid, companyUuid, jobNumber };
+
+  if (existingPool) {
+    activePoolId = existingPool.id;
+    localStorage.setItem(STORE_KEYS.activePool, activePoolId);
+    renderPoolOptions();
+  }
+
+  els.poolName.value = company.name || company.company_name || job.company_name || job.job_address || els.poolName.value;
+  if (!els.poolNotes.value && job.job_address) {
+    els.poolNotes.value = `ServiceM8 address: ${job.job_address}`;
+  }
+
+  setServiceM8Status(
+    existingPool
+      ? "ServiceM8 job loaded and matched to saved pool profile."
+      : "ServiceM8 job loaded. Enter/save pool volume to link this pool for next time.",
+    "ready"
+  );
+}
+
+function applyLinkParams(params) {
+  const name = params.get("name") || params.get("customer") || params.get("site");
+  const volume = params.get("volume") || params.get("litres");
+  const poolType = params.get("pool_type") || params.get("type");
+  const surface = params.get("surface");
+  const notes = params.get("notes");
+  const jobNumber = params.get("job_number") || params.get("job");
+  const companyUuid = params.get("company_uuid") || params.get("client_uuid");
+
+  if (companyUuid) {
+    const existingPool = pools.find((pool) => pool.serviceM8CompanyUuid === companyUuid);
+    if (existingPool) {
+      activePoolId = existingPool.id;
+      localStorage.setItem(STORE_KEYS.activePool, activePoolId);
+      renderPoolOptions();
+    }
+  }
+
+  if (name) els.poolName.value = name;
+  if (volume) els.poolVolume.value = volume;
+  if (poolType) setSelectByValueOrText(els.poolType, poolType);
+  if (surface) setSelectByValueOrText(els.surfaceType, surface);
+  if (notes) els.poolNotes.value = notes;
+
+  if (jobNumber || companyUuid) {
+    activeServiceM8Context = {
+      jobUuid: params.get("job_uuid") || null,
+      companyUuid: companyUuid || null,
+      jobNumber: jobNumber || null
+    };
+  }
+
+  if (name || volume || poolType || surface || notes || jobNumber || companyUuid) {
+    setServiceM8Status("Link details loaded. Save the pool once the volume/profile is correct.", "ready");
+  }
+}
+
+function setSelectByValueOrText(select, requestedValue) {
+  const normalized = requestedValue.trim().toLowerCase();
+  const option = [...select.options].find((item) =>
+    item.value.toLowerCase() === normalized || item.textContent.toLowerCase() === normalized
+  );
+
+  if (option) {
+    select.value = option.value;
+  }
+}
+
+function isNakedPool(pool) {
+  return pool?.poolType === "Naked / NKD";
+}
+
+function getTargetProfile(pool) {
+  if (!isNakedPool(pool)) {
+    return {
+      freeChlorine: { target: settings.targetChlorine },
+      ph: { target: settings.targetPh },
+      alkalinity: { target: settings.targetAlkalinity },
+      cya: { target: settings.targetCya },
+      salt: { target: settings.targetSalt, actionThreshold: settings.saltActionThreshold },
+      phosphate: { max: settings.targetPhosphate }
+    };
+  }
+
+  const fibreglassOrVinyl = pool.surfaceType === "Fibreglass" || pool.surfaceType === "Vinyl";
+
+  return {
+    freeChlorine: { min: 0, max: 0.5 },
+    ph: fibreglassOrVinyl ? { min: 7.2, max: 7.4, target: 7.3 } : { min: 7.4, max: 7.6, target: 7.5 },
+    alkalinity: { min: 80, max: 150, target: settings.targetAlkalinity },
+    hardness: fibreglassOrVinyl ? { min: 80, max: 150, target: 115 } : { min: 150, max: 250, target: 200 },
+    cya: { max: 0 },
+    salt: { min: 500, max: settings.nakedSaltActionThreshold, target: settings.nakedSaltActionThreshold, actionThreshold: settings.nakedSaltActionThreshold },
+    copper: { min: 0.2, max: 0.5, target: 0.35 },
+    phosphate: { max: 200 }
+  };
+}
+
+function getWorkingPool(volume) {
+  return getActivePool() || {
+    id: null,
+    name: els.poolName.value.trim() || "Unsaved pool",
+    volume,
+    poolType: els.poolType.value,
+    surfaceType: els.surfaceType.value,
+    volumeConfidence: els.volumeConfidence.value,
+    notes: els.poolNotes.value.trim()
+  };
+}
+
+function lowerAdjustmentTarget(pool, range) {
+  return range.target;
+}
+
+function upperAdjustmentTarget(pool, range) {
+  return isNakedPool(pool) && range.max !== undefined ? range.max : range.target;
+}
+
+function setSampleReadings() {
+  const sample = {
+    freeChlorine: 0.8,
+    totalChlorine: 1.2,
+    combinedChlorine: 0.4,
+    ph: 7.8,
+    alkalinity: 60,
+    hardness: 180,
+    cya: 25,
+    salt: 3100,
+    phosphate: 650,
+    copper: 0
+  };
+  Object.entries(sample).forEach(([id, value]) => setValue(id, value));
+}
+
+function setOcrStatus(message, style = "") {
+  if (!els.ocrStatus) return;
+  els.ocrStatus.className = `ocr-status ${style}`.trim();
+  els.ocrStatus.textContent = message;
+}
+
+async function extractReadingsFromPhoto() {
+  if (!selectedPhotoDataUrl) {
+    setOcrStatus("Take or upload a photo first.", "warn");
+    return;
+  }
+
+  if (!globalThis.Tesseract) {
+    setOcrStatus("Photo reading library did not load. Check internet connection, then refresh.", "warn");
+    return;
+  }
+
+  els.readPhotoButton.disabled = true;
+  setOcrStatus("Reading photo. This can take 10-30 seconds on a phone.", "");
+
+  try {
+    const processedImages = await prepareImagesForOcr(selectedPhotoDataUrl);
+    const textParts = [];
+
+    for (let index = 0; index < processedImages.length; index += 1) {
+      const result = await Tesseract.recognize(processedImages[index], "eng", {
+        logger(progress) {
+          if (progress.status === "recognizing text") {
+            const imageProgress = (index + progress.progress) / processedImages.length;
+            setOcrStatus(`Reading photo ${Math.round(imageProgress * 100)}%`, "");
+          }
+        },
+        tessedit_pageseg_mode: "6",
+        tessedit_char_whitelist: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.:% "
+      });
+      textParts.push(result.data.text);
+    }
+
+    const extracted = parseSpinTouchText(textParts.join("\n"));
+    fillExtractedReadings(extracted);
+
+    const foundCount = Object.values(extracted).filter((value) => value !== null).length;
+    if (foundCount === 0) {
+      setOcrStatus("I could not find readings in that photo. Try a closer, straighter photo of just the result screen.", "warn");
+      return;
+    }
+
+    setOcrStatus(`Extracted ${foundCount} readings. Check them before calculating.`, "ready");
+  } catch (error) {
+    console.error(error);
+    setOcrStatus("Photo reading failed. Try another photo or enter the readings manually.", "warn");
+  } finally {
+    els.readPhotoButton.disabled = false;
+  }
+}
+
+function prepareImagesForOcr(dataUrl) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.addEventListener("load", () => {
+      const sourceWidth = image.naturalWidth;
+      const sourceHeight = image.naturalHeight;
+      const portrait = sourceHeight > sourceWidth;
+
+      const crops = portrait
+        ? [
+            { x: sourceWidth * 0.18, y: sourceHeight * 0.37, width: sourceWidth * 0.64, height: sourceHeight * 0.28 },
+            { x: sourceWidth * 0.08, y: sourceHeight * 0.30, width: sourceWidth * 0.84, height: sourceHeight * 0.46 },
+            { x: 0, y: 0, width: sourceWidth, height: sourceHeight }
+          ]
+        : [
+            { x: sourceWidth * 0.2, y: sourceHeight * 0.34, width: sourceWidth * 0.6, height: sourceHeight * 0.38 },
+            { x: sourceWidth * 0.08, y: sourceHeight * 0.2, width: sourceWidth * 0.84, height: sourceHeight * 0.62 },
+            { x: 0, y: 0, width: sourceWidth, height: sourceHeight }
+          ];
+
+      resolve(crops.flatMap((crop) => [
+        processCrop(image, crop, "threshold"),
+        processCrop(image, crop, "grey")
+      ]));
+    });
+    image.addEventListener("error", reject);
+    image.src = dataUrl;
+  });
+}
+
+function processCrop(image, crop, mode) {
+  const scale = Math.min(4, 1900 / crop.width);
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(crop.width * scale);
+      canvas.height = Math.round(crop.height * scale);
+
+      const context = canvas.getContext("2d", { willReadFrequently: true });
+      context.drawImage(
+        image,
+        crop.x,
+        crop.y,
+        crop.width,
+        crop.height,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data;
+
+      for (let index = 0; index < data.length; index += 4) {
+        const grey = data[index] * 0.299 + data[index + 1] * 0.587 + data[index + 2] * 0.114;
+        if (mode === "threshold") {
+          const contrast = grey < 155 ? 255 : 0;
+          data[index] = contrast;
+          data[index + 1] = contrast;
+          data[index + 2] = contrast;
+        } else {
+          const lifted = Math.max(0, Math.min(255, (grey - 35) * 1.7));
+          data[index] = lifted;
+          data[index + 1] = lifted;
+          data[index + 2] = lifted;
+        }
+      }
+
+      context.putImageData(imageData, 0, 0);
+  return canvas.toDataURL("image/png");
+}
+
+function parseSpinTouchText(rawText) {
+  const cleaned = rawText
+    .toUpperCase()
+    .replace(/,/g, ".")
+    .replace(/[|]/g, " ")
+    .replace(/\s+/g, " ");
+
+  return {
+    freeChlorine: findReading(cleaned, ["FCL", "FC", "FREE CHLORINE"], "decimal"),
+    totalChlorine: findReading(cleaned, ["TCL", "TC", "TOTAL CHLORINE"], "decimal"),
+    combinedChlorine: findReading(cleaned, ["CCL", "CC", "COMBINED CHLORINE"], "decimal"),
+    ph: findReading(cleaned, ["PH"], "ph"),
+    alkalinity: findReading(cleaned, ["ALK", "ALKALINITY"], "integer"),
+    hardness: findReading(cleaned, ["HARD", "HARDNESS"], "integer"),
+    cya: findReading(cleaned, ["CYA", "STABILISER", "STABILIZER"], "integer"),
+    salt: findReading(cleaned, ["SALT"], "integer"),
+    phosphate: findReading(cleaned, ["PHOS", "PHOSPHATE"], "integer"),
+    copper: findReading(cleaned, ["COPPER", "CU"], "decimal")
+  };
+}
+
+function findReading(text, labels, kind) {
+  for (const label of labels) {
+    const labelPattern = label
+      .replace(/O/g, "[O0]")
+      .replace(/I/g, "[I1]")
+      .replace(/L/g, "[L1]");
+    const pattern = new RegExp(`(?:${labelPattern})\\s*[:=]?\\s*(-?\\d+(?:[\\.O]\\d+)?)`);
+    const match = text.match(pattern);
+    if (match) return normalizeReading(match[1], kind);
+  }
+  return null;
+}
+
+function normalizeReading(rawValue, kind) {
+  const hadDecimal = /[.O]/.test(rawValue);
+  const cleaned = rawValue.replace(/O/g, "0");
+  let value = Number(cleaned);
+
+  if (!Number.isFinite(value)) return null;
+
+  if (kind === "decimal" && !hadDecimal && value > 20 && value < 1000) {
+    value /= 100;
+  }
+
+  if (kind === "ph" && !hadDecimal && value > 14 && value < 100) {
+    value /= 10;
+  }
+
+  if (kind === "decimal" || kind === "ph") {
+    return rounded(value, 2);
+  }
+
+  return Math.round(value);
+}
+
+function fillExtractedReadings(extracted) {
+  Object.entries(extracted).forEach(([id, value]) => {
+    if (value !== null && Number.isFinite(value)) {
+      setValue(id, value);
+    }
+  });
+}
+
+function calculateDoseGuide() {
+  const savedPool = getActivePool();
+  const volume = savedPool ? Number(savedPool.volume) : Number(els.poolVolume.value);
+
+  if (!Number.isFinite(volume) || volume < 1000) {
+    setStatus("Save or enter a valid pool volume first.", "warn");
+    return;
+  }
+
+  const pool = getWorkingPool(volume);
+  const readings = getReadings();
+  const profile = getTargetProfile(pool);
+  const recs = [];
+  const notes = [];
+
+  if (isNakedPool(pool)) {
+    notes.push({
+      type: "info",
+      text: "Naked / NKD profile active: low chlorine, low salt/mineral, copper-managed water. Do not use normal salt-pool targets."
+    });
+  }
+
+  if (!isNakedPool(pool) && readings.freeChlorine !== null && readings.freeChlorine < profile.freeChlorine.target) {
+    const delta = profile.freeChlorine.target - readings.freeChlorine;
+    const litres = (settings.chlorineMlPer10000Per1 * (volume / 10000) * delta) / 1000;
+    recs.push({
+      title: "Liquid chlorine",
+      amount: formatAmount(litres, "L"),
+      rawBase: litres,
+      rawUnit: "L",
+      detail: `Raises free chlorine by about ${rounded(delta, 1)} ppm to target ${profile.freeChlorine.target} ppm.`
+    });
+  }
+
+  const phLowerTarget = lowerAdjustmentTarget(pool, profile.ph);
+  const phUpperTarget = upperAdjustmentTarget(pool, profile.ph);
+
+  if (readings.ph !== null && readings.ph > phUpperTarget + 0.05) {
+    const steps = (readings.ph - phUpperTarget) / 0.1;
+    const uncappedMl = settings.acidMlPer10000Per01 * (volume / 10000) * steps;
+    const maxAcidMl = settings.maxAcidMl || COMPANY_RULES.maxAcidMl;
+    const ml = Math.min(uncappedMl, maxAcidMl);
+    recs.push({
+      title: "Hydrochloric acid",
+      amount: formatAmount(ml, "ml"),
+      rawBase: ml / 1000,
+      rawUnit: "L",
+      detail: uncappedMl > maxAcidMl
+        ? `Capped at ${formatAmount(maxAcidMl, "ml")}. Estimated full dose was ${formatAmount(uncappedMl, "ml")}; circulate and retest before adding more.`
+        : `Estimated dose to lower pH from ${readings.ph} toward ${phUpperTarget}. Add carefully and circulate.`
+    });
+  }
+
+  if (readings.ph !== null && readings.ph < phLowerTarget - 0.05) {
+    notes.push({
+      type: "info",
+      text: `pH is below target at ${readings.ph}, but company rule is no pH increaser. Monitor after alkalinity adjustment and circulation.`
+    });
+  }
+
+  const alkalinityTarget = profile.alkalinity.target;
+  if (readings.alkalinity !== null && readings.alkalinity < alkalinityTarget) {
+    const delta = alkalinityTarget - readings.alkalinity;
+    const grams = settings.bufferGPer10000Per10 * (volume / 10000) * (delta / 10);
+    recs.push({
+      title: "Alkalinity increaser / buffer",
+      amount: formatAmount(grams, "g"),
+      rawBase: grams / 1000,
+      rawUnit: "kg",
+      detail: `Raises total alkalinity by about ${Math.round(delta)} ppm.`
+    });
+  }
+
+  if (!isNakedPool(pool) && readings.cya !== null && readings.cya < profile.cya.target) {
+    const delta = profile.cya.target - readings.cya;
+    const kg = (settings.stabiliserGPer10000Per10 * (volume / 10000) * (delta / 10)) / 1000;
+    recs.push({
+      title: "Stabiliser / cyanuric acid",
+      amount: formatAmount(kg, "kg"),
+      rawBase: kg,
+      rawUnit: "kg",
+      detail: `Raises stabiliser by about ${Math.round(delta)} ppm.`
+    });
+  }
+
+  if (readings.salt !== null && pool.poolType !== "Chlorine" && readings.salt < profile.salt.actionThreshold) {
+    const delta = profile.salt.target - readings.salt;
+    const kg = settings.saltKgPer10000Per500 * (volume / 10000) * (delta / 500);
+    recs.push({
+      title: isNakedPool(pool) ? "Pool salt / mineral mix" : "Pool salt",
+      amount: formatAmount(kg, "kg"),
+      rawBase: kg,
+      rawUnit: "kg",
+      detail: isNakedPool(pool)
+        ? `Raises salt/mineral reading by about ${Math.round(delta)} ppm toward the company action target of ${profile.salt.target} ppm.`
+        : `Raises salt by about ${Math.round(delta)} ppm. Only recommended because salt is under ${profile.salt.actionThreshold} ppm.`
+    });
+  }
+
+  if (readings.phosphate !== null && readings.phosphate > profile.phosphate.max) {
+    const delta = readings.phosphate - profile.phosphate.max;
+    const ml = settings.phosphateMlPer10000Per100 * (volume / 10000) * (delta / 100);
+    recs.push({
+      title: "Phosphate remover",
+      amount: formatAmount(ml, "ml"),
+      rawBase: ml / 1000,
+      rawUnit: "L",
+      detail: `Treats phosphate above ${profile.phosphate.max} ppb. Follow product instructions for filtration and cleaning.`
+    });
+  }
+
+  addSafetyNotes(readings, notes, pool, profile);
+  renderRecommendations(recs, notes);
+  saveHistory(pool, volume, readings, recs, notes);
+}
+
+function addSafetyNotes(readings, notes, pool, profile) {
+  if (isNakedPool(pool) && readings.freeChlorine !== null && readings.freeChlorine > profile.freeChlorine.max) {
+    notes.push({
+      type: "warning",
+      text: `Free chlorine is ${readings.freeChlorine} ppm. NKD guidance is ${profile.freeChlorine.min}-${profile.freeChlorine.max} ppm, so check output/run time, covers, and recent manual chlorine additions.`
+    });
+  }
+
+  if (isNakedPool(pool) && readings.cya !== null && readings.cya > 0) {
+    notes.push({
+      type: "warning",
+      text: "CYA/stabiliser is present. Naked guidance says not to add cyanuric acid or stabilised chlorine."
+    });
+  }
+
+  if (isNakedPool(pool) && readings.salt !== null && readings.salt > profile.salt.max) {
+    notes.push({
+      type: "warning",
+      text: `Salt/mineral reading is at or above the company NKD action level of ${profile.salt.max} ppm. Do not add salt/mineral.`
+    });
+  }
+
+  if (isNakedPool(pool) && readings.copper !== null && readings.copper < profile.copper.min) {
+    notes.push({
+      type: "warning",
+      text: `Copper is below the NKD target range of ${profile.copper.min}-${profile.copper.max} ppm. Check the NKD ioniser/copper procedure rather than adding copper-based algaecide.`
+    });
+  }
+
+  if (isNakedPool(pool) && readings.copper !== null && readings.copper > profile.copper.max) {
+    notes.push({
+      type: "warning",
+      text: `Copper is above the NKD target range of ${profile.copper.min}-${profile.copper.max} ppm. Check pH first and follow NKD high-copper procedure.`
+    });
+  }
+
+  if (readings.combinedChlorine !== null && readings.combinedChlorine > 0.5) {
+    notes.push({
+      type: "warning",
+      text: `Combined chlorine is elevated at ${readings.combinedChlorine} ppm. Consider oxidising/shocking according to company procedure.`
+    });
+  } else if (readings.totalChlorine !== null && readings.freeChlorine !== null) {
+    const combined = readings.totalChlorine - readings.freeChlorine;
+    if (combined > 0.5) {
+      notes.push({
+        type: "warning",
+        text: `Combined chlorine appears elevated at about ${rounded(combined, 1)} ppm. Consider oxidising/shocking according to company procedure.`
+      });
+    }
+  }
+
+  if (readings.ph !== null && (readings.ph < 7 || readings.ph > 8)) {
+    notes.push({
+      type: "warning",
+      text: "pH is outside the normal operating range. Dose in stages and retest after circulation."
+    });
+  }
+
+  if (readings.cya !== null && readings.cya > 80) {
+    notes.push({
+      type: "warning",
+      text: "Stabiliser is high. Avoid adding more CYA and consider dilution advice."
+    });
+  }
+
+  if (readings.copper !== null && readings.copper > 0.3) {
+    notes.push({
+      type: "warning",
+      text: "Copper is elevated. Avoid copper-based products and consider stain/metal treatment."
+    });
+  }
+}
+
+function renderRecommendations(recs, notes) {
+  els.recommendationList.innerHTML = "";
+  els.notesList.innerHTML = "";
+
+  if (recs.length === 0) {
+    setStatus("No standard dosing required from the confirmed readings.", "ready");
+  } else {
+    setStatus(`${recs.length} recommended treatment${recs.length === 1 ? "" : "s"} calculated. Test history saved automatically.`, "ready");
+  }
+
+  recs.forEach((rec) => {
+    const card = document.createElement("article");
+    card.className = "dose-card";
+    card.innerHTML = `
+      <strong>${rec.title}</strong>
+      <div class="dose-amount">${rec.amount}</div>
+      <p>${rec.detail}</p>
+    `;
+    els.recommendationList.append(card);
+  });
+
+  notes.forEach((note) => {
+    const card = document.createElement("article");
+    card.className = `note-card ${note.type}`;
+    card.innerHTML = `<p>${note.text}</p>`;
+    els.notesList.append(card);
+  });
+}
+
+function setStatus(message, style = "") {
+  els.statusCard.className = `status-card ${style}`.trim();
+  els.statusCard.textContent = message;
+}
+
+function saveHistory(pool, volume, readings, recs, notes) {
+  const entry = {
+    id: createId(),
+    poolId: pool?.id || null,
+    poolName: pool?.name || "Unsaved pool",
+    poolType: pool?.poolType || null,
+    surfaceType: pool?.surfaceType || null,
+    volume,
+    date: new Date().toISOString(),
+    readings,
+    recommendations: recs,
+    notes
+  };
+  history = [entry, ...history].slice(0, 500);
+  saveJson(STORE_KEYS.history, history);
+  renderHistory();
+}
+
+function renderHistory() {
+  const searchTerm = (els.historySearch?.value || "").toLowerCase().trim();
+  els.historyList.innerHTML = "";
+  els.historyDetail.innerHTML = "";
+
+  if (history.length === 0) {
+    els.historyDetail.innerHTML = `<p class="empty-state">No services recorded yet.<br>Complete your first dose calculation to start building history.</p>`;
+    return;
+  }
+
+  let groups = groupHistoryByPool();
+
+  if (searchTerm) {
+    groups = groups.filter((g) => g.name.toLowerCase().includes(searchTerm));
+  }
+
+  if (groups.length === 0) {
+    els.historyList.innerHTML = `<p style="padding:16px;color:var(--text-3);font-size:0.84rem;">No clients match that search.</p>`;
+    return;
+  }
+
+  if (!groups.some((g) => g.name === activeHistoryPoolName)) {
+    activeHistoryPoolName = groups[0].name;
+  }
+
+  groups.forEach((group) => {
+    const latest = group.entries[0];
+    const lastDate = new Date(latest.date).toLocaleDateString([], { day: "numeric", month: "short", year: "numeric" });
+    const btn = document.createElement("button");
+    btn.className = `history-job${group.name === activeHistoryPoolName ? " active" : ""}`;
+    btn.type = "button";
+    btn.innerHTML = `
+      <strong class="history-job-name">${group.name}</strong>
+      <span class="history-job-meta">${group.entries.length} visit${group.entries.length === 1 ? "" : "s"} · ${lastDate}</span>
+      <span class="history-job-chips">
+        <span class="reading-chip">FC ${formatReading(latest.readings.freeChlorine)}</span>
+        <span class="reading-chip">pH ${formatReading(latest.readings.ph)}</span>
+        <span class="reading-chip">ALK ${formatReading(latest.readings.alkalinity)}</span>
+      </span>
+    `;
+    btn.addEventListener("click", () => {
+      activeHistoryPoolName = group.name;
+      renderHistory();
+    });
+    els.historyList.append(btn);
+  });
+
+  const selected = groups.find((g) => g.name === activeHistoryPoolName) || groups[0];
+  renderHistoryDetail(selected);
+}
+
+function groupHistoryByPool() {
+  const groups = new Map();
+  history.forEach((entry) => {
+    const name = entry.poolName || "Unsaved pool";
+    if (!groups.has(name)) groups.set(name, []);
+    groups.get(name).push(entry);
+  });
+
+  return [...groups.entries()]
+    .map(([name, entries]) => ({
+      name,
+      entries: entries.sort((a, b) => new Date(b.date) - new Date(a.date))
+    }))
+    .sort((a, b) => new Date(b.entries[0].date) - new Date(a.entries[0].date));
+}
+
+function renderHistoryDetail(group) {
+  const latest = group.entries[0];
+  const pool = pools.find((p) => p.id === latest.poolId) || pools.find((p) => p.name === group.name) || null;
+  const poolType = pool?.poolType || latest.poolType || "—";
+  const surface = pool?.surfaceType || latest.surfaceType || "—";
+  const volume = pool?.volume || latest.volume;
+  const lastDate = new Date(latest.date).toLocaleDateString([], { dateStyle: "medium" });
+
+  els.historyDetail.innerHTML = `
+    <div class="client-detail-header">
+      <div class="client-detail-title">
+        <p class="step-label">Client</p>
+        <h3>${group.name}</h3>
+      </div>
+      <button class="primary-button client-load-btn" id="loadClientBtn" type="button">Start New Service</button>
+    </div>
+    <div class="client-meta-grid">
+      <div class="client-meta-item"><span>Volume</span><strong>${Number(volume).toLocaleString()} L</strong></div>
+      <div class="client-meta-item"><span>Type</span><strong>${poolType}</strong></div>
+      <div class="client-meta-item"><span>Surface</span><strong>${surface}</strong></div>
+      <div class="client-meta-item"><span>Last service</span><strong>${lastDate}</strong></div>
+      <div class="client-meta-item"><span>Total visits</span><strong>${group.entries.length}</strong></div>
+    </div>
+    <div class="chart-accordion" id="chartAccordion">
+      <div class="chart-accordion-heading">
+        <p class="section-label">Analytics</p>
+      </div>
+    </div>
+    <p class="section-label" style="margin-top:20px">Service history</p>
+    <div class="visit-list" id="visitList"></div>
+  `;
+
+  document.querySelector("#loadClientBtn")?.addEventListener("click", () => {
+    if (pool) {
+      activePoolId = pool.id;
+      localStorage.setItem(STORE_KEYS.activePool, activePoolId);
+      renderPoolOptions();
+    }
+    showPage("dose");
+  });
+
+  renderChartAccordion(group.entries);
+  renderVisitList(group.entries);
+}
+
+function renderVisitList(entries) {
+  const container = document.querySelector("#visitList");
+  if (!container) return;
+  container.innerHTML = "";
+
+  entries.forEach((entry) => {
+    const date = new Date(entry.date).toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
+    const recCount = entry.recommendations.length;
+    const summary = recCount === 0 ? "No standard dosing required" : `${recCount} treatment${recCount === 1 ? "" : "s"} recommended`;
+
+    const card = document.createElement("article");
+    card.className = "visit-card";
+    card.innerHTML = `
+      <button class="visit-summary" type="button" aria-expanded="false">
+        <div class="visit-summary-main">
+          <strong>${date}</strong>
+          <span class="visit-summary-sub">${summary} · ${Number(entry.volume).toLocaleString()} L</span>
+        </div>
+        <span class="visit-chips">
+          <span class="reading-chip">FC ${formatReading(entry.readings.freeChlorine)}</span>
+          <span class="reading-chip">pH ${formatReading(entry.readings.ph)}</span>
+          <span class="reading-chip">ALK ${formatReading(entry.readings.alkalinity)}</span>
+        </span>
+        <span class="visit-arrow" aria-hidden="true">›</span>
+      </button>
+      <div class="visit-body hidden">
+        ${renderVisitBody(entry)}
+      </div>
+    `;
+
+    const btn = card.querySelector(".visit-summary");
+    const body = card.querySelector(".visit-body");
+    btn.addEventListener("click", () => {
+      const opening = body.classList.contains("hidden");
+      body.classList.toggle("hidden", !opening);
+      btn.setAttribute("aria-expanded", String(opening));
+      card.classList.toggle("open", opening);
+    });
+
+    container.append(card);
+  });
+}
+
+function renderVisitBody(entry) {
+  const allReadings = [
+    { label: "Free chlorine",    key: "freeChlorine",     unit: "ppm" },
+    { label: "Total chlorine",   key: "totalChlorine",    unit: "ppm" },
+    { label: "Combined chlorine",key: "combinedChlorine", unit: "ppm" },
+    { label: "pH",               key: "ph",               unit: "" },
+    { label: "Alkalinity",       key: "alkalinity",       unit: "ppm" },
+    { label: "Hardness",         key: "hardness",         unit: "ppm" },
+    { label: "CYA",              key: "cya",              unit: "ppm" },
+    { label: "Salt",             key: "salt",             unit: "ppm" },
+    { label: "Phosphate",        key: "phosphate",        unit: "ppb" },
+    { label: "Copper",           key: "copper",           unit: "ppm" }
+  ];
+
+  const readingsHtml = allReadings.map((r) => {
+    const val = entry.readings[r.key];
+    const display = Number.isFinite(val) ? `${val}${r.unit ? " " + r.unit : ""}` : "—";
+    return `<div class="visit-reading"><span>${r.label}</span><strong>${display}</strong></div>`;
+  }).join("");
+
+  const dosingHtml = entry.recommendations.length === 0
+    ? `<p style="color:var(--text-3);font-size:0.84rem;margin:0">No standard dosing required.</p>`
+    : entry.recommendations.map((rec) => `
+        <div class="visit-dose">
+          <span>${rec.title}</span>
+          <strong>${rec.amount}</strong>
+          <p>${rec.detail}</p>
+        </div>
+      `).join("");
+
+  const notesHtml = entry.notes?.length > 0
+    ? entry.notes.map((n) => `<p class="visit-note ${n.type}">${n.text}</p>`).join("")
+    : "";
+
+  return `
+    <div class="visit-body-inner">
+      <div>
+        <p class="visit-section-label">Readings</p>
+        <div class="readings-table">${readingsHtml}</div>
+      </div>
+      <div>
+        <p class="visit-section-label">Dosing</p>
+        ${dosingHtml}
+      </div>
+      ${notesHtml ? `<div><p class="visit-section-label">Notes &amp; warnings</p>${notesHtml}</div>` : ""}
+    </div>
+  `;
+}
+
+const CHART_PARAMS = [
+  { label: "Free chlorine",     key: "freeChlorine",     unit: "ppm", targetKey: "targetChlorine" },
+  { label: "Total chlorine",    key: "totalChlorine",    unit: "ppm", targetKey: null },
+  { label: "Combined chlorine", key: "combinedChlorine", unit: "ppm", targetKey: null },
+  { label: "pH",                key: "ph",               unit: "",    targetKey: "targetPh" },
+  { label: "Alkalinity",        key: "alkalinity",       unit: "ppm", targetKey: "targetAlkalinity" },
+  { label: "Hardness",          key: "hardness",         unit: "ppm", targetKey: null },
+  { label: "CYA / Stabiliser",  key: "cya",              unit: "ppm", targetKey: "targetCya" },
+  { label: "Salt",              key: "salt",             unit: "ppm", targetKey: "targetSalt" },
+  { label: "Phosphate",         key: "phosphate",        unit: "ppb", targetKey: "targetPhosphate" },
+  { label: "Copper",            key: "copper",           unit: "ppm", targetKey: null }
+];
+
+function renderChartAccordion(entries) {
+  const accordion = document.querySelector("#chartAccordion");
+  if (!accordion) return;
+
+  const chronological = [...entries].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  CHART_PARAMS.forEach((param) => {
+    const values = chronological
+      .map((e) => ({ date: e.date, value: e.readings[param.key] }))
+      .filter((p) => Number.isFinite(p.value));
+
+    const latest = values.length > 0 ? values[values.length - 1].value : null;
+    const latestLabel = latest !== null ? `${latest}${param.unit ? " " + param.unit : ""}` : "—";
+
+    const item = document.createElement("div");
+    item.className = "chart-item";
+    item.dataset.key = param.key;
+    item.innerHTML = `
+      <button class="chart-trigger" type="button" aria-expanded="false">
+        <span class="chart-trigger-label">${param.label}</span>
+        <span class="chart-trigger-value">${latestLabel}</span>
+        <span class="chart-trigger-arrow" aria-hidden="true">›</span>
+      </button>
+      <div class="chart-canvas-wrap hidden">
+        <canvas class="chart-canvas" aria-label="${param.label} trend chart" role="img"></canvas>
+        <p class="chart-need-data hidden">Need at least 2 visits to show a trend.</p>
+      </div>
+    `;
+
+    item.querySelector(".chart-trigger").addEventListener("click", () => {
+      toggleChartItem(item, param, values);
+    });
+
+    accordion.append(item);
+  });
+}
+
+function toggleChartItem(item, param, values) {
+  const isOpen = item.classList.contains("open");
+
+  // Close all open items first (exclusive accordion)
+  document.querySelectorAll("#chartAccordion .chart-item.open").forEach((other) => {
+    if (other !== item) closeChartItem(other);
+  });
+
+  if (isOpen) {
+    closeChartItem(item);
+  } else {
+    openChartItem(item, param, values);
+  }
+}
+
+function closeChartItem(item) {
+  item.classList.remove("open");
+  const wrap = item.querySelector(".chart-canvas-wrap");
+  const canvas = item.querySelector(".chart-canvas");
+  const existing = globalThis.Chart?.getChart?.(canvas);
+  if (existing) existing.destroy();
+  wrap.classList.add("hidden");
+  item.querySelector(".chart-trigger")?.setAttribute("aria-expanded", "false");
+}
+
+function openChartItem(item, param, values) {
+  item.classList.add("open");
+  const wrap = item.querySelector(".chart-canvas-wrap");
+  const canvas = item.querySelector(".chart-canvas");
+  const needData = item.querySelector(".chart-need-data");
+  wrap.classList.remove("hidden");
+  item.querySelector(".chart-trigger")?.setAttribute("aria-expanded", "true");
+
+  if (values.length < 2) {
+    canvas.classList.add("hidden");
+    needData.classList.remove("hidden");
+    return;
+  }
+
+  canvas.classList.remove("hidden");
+  needData.classList.add("hidden");
+
+  const labels = values.map((v) =>
+    new Date(v.date).toLocaleDateString([], { day: "numeric", month: "short" })
+  );
+  const data = values.map((v) => v.value);
+
+  const datasets = [
+    {
+      label: param.label,
+      data,
+      borderColor: "#0d9488",
+      backgroundColor: "rgba(13,148,136,0.07)",
+      borderWidth: 2,
+      pointRadius: 4,
+      pointHoverRadius: 6,
+      pointBackgroundColor: "#0d9488",
+      tension: 0.35,
+      fill: true
+    }
+  ];
+
+  if (param.targetKey && settings[param.targetKey] != null) {
+    const target = settings[param.targetKey];
+    datasets.push({
+      label: `Target (${target}${param.unit ? " " + param.unit : ""})`,
+      data: Array(data.length).fill(target),
+      borderColor: "rgba(245,158,11,0.55)",
+      borderWidth: 1.5,
+      borderDash: [6, 4],
+      pointRadius: 0,
+      fill: false
+    });
+  }
+
+  new Chart(canvas, {
+    type: "line",
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: datasets.length > 1,
+          position: "top",
+          labels: { boxWidth: 10, font: { size: 11 }, color: "#4d6460" }
+        },
+        tooltip: { mode: "index", intersect: false }
+      },
+      scales: {
+        x: {
+          grid: { color: "rgba(0,0,0,0.04)" },
+          ticks: { font: { size: 11 }, color: "#7a9490" }
+        },
+        y: {
+          grid: { color: "rgba(0,0,0,0.04)" },
+          ticks: { font: { size: 11 }, color: "#7a9490" },
+          beginAtZero: false
+        }
+      }
+    }
+  });
+}
+
+function formatReading(value) {
+  return Number.isFinite(value) ? value : "-";
+}
+
+function handlePhotoUpload(event) {
+  const file = event.target.files?.[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.addEventListener("load", () => {
+    selectedPhotoDataUrl = reader.result;
+    els.photoPreview.src = selectedPhotoDataUrl;
+    els.photoPreviewWrap.classList.remove("hidden");
+    els.readPhotoButton.disabled = false;
+    setOcrStatus("Photo loaded. Tap Read Photo to extract the readings.", "");
+  });
+  reader.readAsDataURL(file);
+}
+
+// ── STOCK PAGE ────────────────────────────────────────────────────────────────
+
+const REC_TO_CHEMICAL = {
+  "Liquid chlorine":               { key: "chlorine",   unit: "L"  },
+  "Hydrochloric acid":             { key: "acid",       unit: "L"  },
+  "Alkalinity increaser / buffer": { key: "buffer",     unit: "kg" },
+  "Stabiliser / cyanuric acid":    { key: "stabiliser", unit: "kg" },
+  "Pool salt":                     { key: "salt",       unit: "kg" },
+  "Pool salt / mineral mix":       { key: "salt",       unit: "kg" },
+  "Phosphate remover":             { key: "phosphate",  unit: "L"  }
+};
+
+const STOCK_CHEMICALS = [
+  { key: "chlorine",   label: "Liquid chlorine",  unit: "L",  inputId: "stockChlorine"   },
+  { key: "acid",       label: "HCl acid",          unit: "L",  inputId: "stockAcid"       },
+  { key: "buffer",     label: "Alk buffer",        unit: "kg", inputId: "stockBuffer"     },
+  { key: "stabiliser", label: "Stabiliser",        unit: "kg", inputId: "stockStabiliser" },
+  { key: "salt",       label: "Salt",              unit: "kg", inputId: "stockSalt"       },
+  { key: "phosphate",  label: "Phosphate rem.",    unit: "L",  inputId: "stockPhosphate"  }
+];
+
+function parseAmountToBase(str) {
+  if (!str) return { value: 0, unit: "L" };
+  const match = String(str).trim().match(/^([\d.]+)\s*(L|ml|kg|g)$/i);
+  if (!match) return { value: 0, unit: "L" };
+  const num = parseFloat(match[1]);
+  const rawUnit = match[2].toLowerCase();
+  if (rawUnit === "l")  return { value: num,        unit: "L"  };
+  if (rawUnit === "ml") return { value: num / 1000, unit: "L"  };
+  if (rawUnit === "kg") return { value: num,        unit: "kg" };
+  if (rawUnit === "g")  return { value: num / 1000, unit: "kg" };
+  return { value: 0, unit: "L" };
+}
+
+function getRecommendedTotals(fromDate, toDate) {
+  const totals = { chlorine: 0, acid: 0, buffer: 0, stabiliser: 0, salt: 0, phosphate: 0 };
+  const from = new Date(fromDate);
+  const to   = new Date(toDate);
+
+  history.forEach((entry) => {
+    const d = new Date(entry.date);
+    if (d < from || d > to) return;
+    (entry.recommendations || []).forEach((rec) => {
+      const chem = REC_TO_CHEMICAL[rec.title];
+      if (!chem) return;
+      const base = (typeof rec.rawBase === "number" && Number.isFinite(rec.rawBase))
+        ? rec.rawBase
+        : parseAmountToBase(rec.amount).value;
+      totals[chem.key] += base;
+    });
+  });
+
+  return totals;
+}
+
+function setStockEntryType(type) {
+  const isTopup = type === "topup";
+  els.topupTypeBtn.classList.toggle("active", isTopup);
+  els.snapshotTypeBtn.classList.toggle("active", !isTopup);
+  els.entryTypeHint.textContent = isTopup
+    ? "Recording a top-up: enter the quantities you are loading onto the ute now."
+    : "Recording a stocktake: enter the quantities currently on the ute.";
+  els.saveStockEventButton.textContent = isTopup ? "Save Top-up" : "Save Stocktake";
+  els.saveStockEventButton.dataset.stockType = type;
+}
+
+function saveStockEvent() {
+  const type = els.saveStockEventButton.dataset.stockType || "topup";
+  const quantities = {};
+  STOCK_CHEMICALS.forEach((c) => {
+    quantities[c.key] = parseFloat(document.querySelector(`#${c.inputId}`)?.value) || 0;
+  });
+
+  const event = {
+    id: createId(),
+    type,
+    date: new Date().toISOString(),
+    note: els.stockNote?.value.trim() || "",
+    quantities
+  };
+
+  stockEvents = [event, ...stockEvents];
+  saveJson(STORE_KEYS.stock, stockEvents);
+
+  // Clear form fields
+  STOCK_CHEMICALS.forEach((c) => {
+    const el = document.querySelector(`#${c.inputId}`);
+    if (el) el.value = "";
+  });
+  if (els.stockNote) els.stockNote.value = "";
+
+  renderStockPage();
+}
+
+function renderStockPage() {
+  renderReconciliation();
+  renderStockLog();
+}
+
+function renderReconciliation() {
+  const container = els.stockReconciliation;
+  if (!container) return;
+
+  if (stockEvents.length < 2) {
+    container.innerHTML = `
+      <div class="recon-card">
+        <div class="recon-empty">
+          <p>Log a top-up to start tracking stock.<br>
+          Add a second entry (top-up or stocktake) to see your first reconciliation.</p>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  // Two most recent events: [0] = newest, [1] = older
+  const newer = stockEvents[0];
+  const older = stockEvents[1];
+
+  const fromDate = older.date;
+  const toDate   = newer.date;
+  const recommended = getRecommendedTotals(fromDate, toDate);
+
+  const periodJobs   = history.filter((e) => {
+    const d = new Date(e.date);
+    return d >= new Date(fromDate) && d <= new Date(toDate);
+  });
+  const clientNames = [...new Set(periodJobs.map((e) => e.poolName))];
+
+  const fmtDate = (iso) => new Date(iso).toLocaleDateString([], { day: "numeric", month: "short", year: "numeric" });
+
+  const rowsHtml = STOCK_CHEMICALS.map((chem) => {
+    const used = Math.max(0, (older.quantities[chem.key] || 0) - (newer.quantities[chem.key] || 0));
+    const rec  = rounded(recommended[chem.key] || 0, 2);
+    const variance = rounded(used - rec, 2);
+
+    let chipClass = "match";
+    let chipLabel = "✓ Match";
+
+    if (Math.abs(variance) >= 0.05) {
+      if (variance > 0) {
+        chipClass = "over";
+        chipLabel = `▲ ${formatAmount(Math.abs(variance), chem.unit)} over`;
+      } else {
+        chipClass = "under";
+        chipLabel = `▼ ${formatAmount(Math.abs(variance), chem.unit)} under`;
+      }
+    }
+
+    const usedDisplay = used > 0 ? formatAmount(used, chem.unit) : `0 ${chem.unit}`;
+    const recDisplay  = rec  > 0 ? formatAmount(rec,  chem.unit) : `0 ${chem.unit}`;
+
+    return `
+      <div class="recon-row">
+        <span class="recon-row-name">${chem.label}</span>
+        <span class="recon-row-val">${usedDisplay}</span>
+        <span class="recon-row-val">${recDisplay}</span>
+        <span class="variance-chip ${chipClass}">${chipLabel}</span>
+      </div>
+    `;
+  }).join("");
+
+  const clientsHtml = clientNames.length > 0
+    ? `<div class="recon-clients"><strong>${periodJobs.length} job${periodJobs.length === 1 ? "" : "s"} in period:</strong> ${clientNames.join(", ")}</div>`
+    : `<div class="recon-clients">No jobs recorded in this period.</div>`;
+
+  container.innerHTML = `
+    <div class="recon-card">
+      <div class="recon-period">
+        <div>
+          <p class="step-label">Reconciliation</p>
+          <h3>${fmtDate(fromDate)} → ${fmtDate(toDate)}</h3>
+        </div>
+      </div>
+      <p class="recon-meta">${periodJobs.length} job${periodJobs.length === 1 ? "" : "s"} · ${newer.type === "topup" ? "Top-up" : "Stocktake"} on ${fmtDate(toDate)} vs ${older.type === "topup" ? "top-up" : "stocktake"} on ${fmtDate(fromDate)}</p>
+      <div class="recon-table">
+        <div class="recon-row header">
+          <span>Chemical</span>
+          <span style="text-align:right">Used (actual)</span>
+          <span style="text-align:right">Recommended</span>
+          <span>Variance</span>
+        </div>
+        ${rowsHtml}
+      </div>
+      ${clientsHtml}
+    </div>
+  `;
+}
+
+function renderStockLog() {
+  const container = els.stockLog;
+  if (!container) return;
+
+  if (stockEvents.length === 0) {
+    container.innerHTML = `<p class="empty-state" style="padding:24px 0;text-align:center">No stock events logged yet.</p>`;
+    return;
+  }
+
+  container.innerHTML = "";
+  const list = document.createElement("div");
+  list.className = "stock-log-list";
+
+  stockEvents.forEach((event) => {
+    const dateStr = new Date(event.date).toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
+    const card = document.createElement("article");
+    card.className = "stock-event-card";
+
+    const qtysHtml = STOCK_CHEMICALS.map((c) => {
+      const val = event.quantities[c.key] ?? 0;
+      return `<div class="stock-qty-item"><span>${c.label}</span><strong>${val} ${c.unit}</strong></div>`;
+    }).join("");
+
+    card.innerHTML = `
+      <div class="stock-event-header">
+        <span class="stock-type-badge ${event.type}">${event.type === "topup" ? "Top-up" : "Stocktake"}</span>
+        <span class="stock-event-date">${dateStr}</span>
+      </div>
+      ${event.note ? `<p class="stock-event-note">${event.note}</p>` : ""}
+      <div class="stock-quantities">${qtysHtml}</div>
+      <div class="stock-event-actions">
+        <button class="delete-btn" type="button" data-id="${event.id}">Delete</button>
+      </div>
+    `;
+
+    card.querySelector(".delete-btn").addEventListener("click", () => {
+      stockEvents = stockEvents.filter((e) => e.id !== event.id);
+      saveJson(STORE_KEYS.stock, stockEvents);
+      renderStockPage();
+    });
+
+    list.append(card);
+  });
+
+  container.append(list);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
+els.settingsButton.addEventListener("click", openSettings);
+els.doseNavButton.addEventListener("click", () => showPage("dose"));
+els.historyNavButton.addEventListener("click", () => showPage("history"));
+els.historySearch?.addEventListener("input", renderHistory);
+els.stockNavButton.addEventListener("click", () => showPage("stock"));
+els.saveSettingsButton.addEventListener("click", saveSettings);
+els.resetSettingsButton.addEventListener("click", resetSettings);
+els.serviceM8ProxyUrl.value = serviceM8Settings.proxyUrl || "";
+els.saveServiceM8SettingsButton.addEventListener("click", saveServiceM8Settings);
+els.loadServiceM8JobButton.addEventListener("click", loadServiceM8Job);
+els.newPoolButton.addEventListener("click", () => {
+  clearPoolForm();
+  activeServiceM8Context = null;
+  setStatus("New pool ready. Save it once the volume is entered.", "");
+});
+els.savePoolButton.addEventListener("click", savePool);
+els.estimateVolumeButton.addEventListener("click", useEstimatedVolume);
+[els.poolLength, els.poolWidth, els.poolDepth].forEach((input) => {
+  input.addEventListener("input", updateVolumeEstimateStatus);
+});
+els.poolSelect.addEventListener("change", (event) => {
+  activePoolId = event.target.value;
+  localStorage.setItem(STORE_KEYS.activePool, activePoolId);
+  fillPoolForm(getActivePool());
+});
+els.resultPhoto.addEventListener("change", handlePhotoUpload);
+els.readPhotoButton.addEventListener("click", extractReadingsFromPhoto);
+els.sampleButton.addEventListener("click", setSampleReadings);
+els.calculateButton.addEventListener("click", calculateDoseGuide);
+els.clearHistoryButton.addEventListener("click", () => {
+  history = [];
+  saveJson(STORE_KEYS.history, history);
+  renderHistory();
+});
+
+els.topupTypeBtn.addEventListener("click", () => setStockEntryType("topup"));
+els.snapshotTypeBtn.addEventListener("click", () => setStockEntryType("snapshot"));
+els.saveStockEventButton.addEventListener("click", saveStockEvent);
+els.clearStockButton.addEventListener("click", () => {
+  stockEvents = [];
+  saveJson(STORE_KEYS.stock, stockEvents);
+  renderStockPage();
+});
+
+renderPoolOptions();
+renderHistory();
+els.doseNavButton.classList.add("active");
+
+const queryParams = new URLSearchParams(location.search);
+applyLinkParams(queryParams);
+const serviceM8JobParam = queryParams.get("job_uuid") || queryParams.get("job") || queryParams.get("job_number");
+if (serviceM8JobParam) {
+  els.serviceM8JobLookup.value = serviceM8JobParam;
+  if (serviceM8Settings.proxyUrl) {
+    loadServiceM8Job();
+  } else {
+    setServiceM8Status("ServiceM8 job was provided in the URL. Add your secure proxy URL to load it.", "warn");
+  }
+}
+</script>
+  </body>
+</html>
